@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NCB Compliance — LerneanLabs Solutions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #050507;
+    --surface: #0c0c10;
+    --surface-2: #13131a;
+    --border: rgba(255,255,255,0.07);
+    --green: #00e87a;
+    --blue: #38bdf8;
+    --purple: #a78bfa;
+    --orange: #fb923c;
+    --white: #f0f0f5;
+    --muted: #6b7280;
+    --dimmed: #9ca3af;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; font-size: 16px; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 400;
+    line-height: 1.6;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* Grain overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.4;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    padding: 18px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(5,5,7,0.8);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    transition: all 0.3s ease;
+  }
+
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    color: var(--white);
+    letter-spacing: -0.03em;
+    text-decoration: none;
+  }
+
+  .nav-logo span { color: var(--green); }
+
+  .nav-links { display: flex; gap: 32px; align-items: center; }
+
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: color 0.2s;
+    letter-spacing: 0.01em;
+  }
+
+  .nav-links a:hover { color: var(--white); }
+
+  .btn-nav {
+    background: var(--green);
+    color: #050507;
+    padding: 10px 22px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    letter-spacing: -0.01em;
+  }
+
+  .btn-nav:hover { background: #00ff88; transform: translateY(-1px); box-shadow: 0 8px 24px rgba(0,232,122,0.3); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 140px 48px 100px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Gradient mesh background */
+  .hero::before {
+    content: '';
+    position: absolute;
+    width: 800px;
+    height: 800px;
+    background: radial-gradient(circle, rgba(0,232,122,0.08) 0%, transparent 70%);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -60%);
+    pointer-events: none;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(56,189,248,0.06) 0%, transparent 70%);
+    bottom: 0;
+    right: 10%;
+    pointer-events: none;
+  }
+
+  .hero-inner { position: relative; z-index: 2; max-width: 860px; }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 16px;
+    background: rgba(0,232,122,0.08);
+    border: 1px solid rgba(0,232,122,0.2);
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--green);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 32px;
+    font-family: 'JetBrains Mono', monospace;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .hero-badge::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    background: var(--green);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.3); }
+  }
+
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(48px, 7vw, 88px);
+    font-weight: 800;
+    line-height: 1.0;
+    letter-spacing: -0.04em;
+    margin-bottom: 24px;
+    animation: fadeUp 0.6s ease 0.1s both;
+  }
+
+  .gradient-text {
+    background: linear-gradient(135deg, var(--green) 0%, var(--blue) 50%, var(--purple) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-sub {
+    font-size: clamp(17px, 2vw, 20px);
+    color: var(--dimmed);
+    max-width: 580px;
+    margin: 0 auto 48px;
+    line-height: 1.65;
+    font-weight: 300;
+    animation: fadeUp 0.6s ease 0.2s both;
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+    animation: fadeUp 0.6s ease 0.3s both;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--green);
+    color: #050507;
+    padding: 16px 32px;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 16px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    letter-spacing: -0.02em;
+  }
+
+  .btn-primary:hover { background: #00ff88; transform: translateY(-2px); box-shadow: 0 16px 40px rgba(0,232,122,0.35); }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,255,255,0.05);
+    color: var(--white);
+    padding: 16px 32px;
+    border-radius: 12px;
+    font-weight: 500;
+    font-size: 16px;
+    text-decoration: none;
+    border: 1px solid var(--border);
+    transition: all 0.2s ease;
+    letter-spacing: -0.02em;
+  }
+
+  .btn-secondary:hover { background: rgba(255,255,255,0.09); border-color: rgba(255,255,255,0.15); transform: translateY(-2px); }
+
+  .hero-stats {
+    display: flex;
+    gap: 48px;
+    justify-content: center;
+    margin-top: 72px;
+    padding-top: 48px;
+    border-top: 1px solid var(--border);
+    animation: fadeUp 0.6s ease 0.4s both;
+  }
+
+  .stat { text-align: center; }
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 36px;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    color: var(--white);
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 6px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  /* ── SECTION COMMONS ── */
+  section { padding: 100px 48px; max-width: 1200px; margin: 0 auto; }
+
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--green);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(32px, 4vw, 52px);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 1.1;
+    margin-bottom: 20px;
+  }
+
+  .section-sub {
+    font-size: 17px;
+    color: var(--dimmed);
+    max-width: 560px;
+    line-height: 1.65;
+    font-weight: 300;
+    margin-bottom: 64px;
+  }
+
+  /* ── PROBLEM ── */
+  .problem-section { background: var(--surface); border-radius: 24px; padding: 80px; margin: 0 24px; }
+
+  .problem-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    margin-top: 48px;
+  }
+
+  .problem-card {
+    background: var(--surface);
+    padding: 40px 32px;
+    transition: background 0.2s;
+  }
+
+  .problem-card:hover { background: var(--surface-2); }
+
+  .problem-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    margin-bottom: 20px;
+  }
+
+  .icon-red { background: rgba(239,68,68,0.12); }
+  .icon-orange { background: rgba(251,146,60,0.12); }
+  .icon-yellow { background: rgba(234,179,8,0.12); }
+
+  .problem-card h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 10px;
+    color: var(--white);
+  }
+
+  .problem-card p {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.65;
+  }
+
+  /* ── SOLUTION ── */
+  .solution-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  .feature-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 40px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .feature-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent-color, var(--green)), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .feature-card:hover { border-color: rgba(255,255,255,0.12); transform: translateY(-4px); }
+  .feature-card:hover::before { opacity: 1; }
+
+  .feature-card.wide { grid-column: span 2; }
+
+  .feature-accent {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    display: block;
+  }
+
+  .feature-card h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    margin-bottom: 12px;
+    color: var(--white);
+  }
+
+  .feature-card p {
+    font-size: 15px;
+    color: var(--dimmed);
+    line-height: 1.65;
+  }
+
+  .feature-list {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .feature-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 14px;
+    color: var(--dimmed);
+    list-style: none;
+  }
+
+  .feature-list li::before {
+    content: '→';
+    color: var(--green);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  /* ── OUTPUTS ── */
+  .outputs-section {
+    background: linear-gradient(135deg, rgba(0,232,122,0.04) 0%, rgba(56,189,248,0.04) 50%, rgba(167,139,250,0.04) 100%);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 80px;
+    margin: 0 24px;
+  }
+
+  .outputs-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 48px;
+  }
+
+  .output-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px 28px;
+    position: relative;
+    transition: all 0.2s;
+  }
+
+  .output-card:hover { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.12); }
+
+  .output-number {
+    font-family: 'Syne', sans-serif;
+    font-size: 48px;
+    font-weight: 800;
+    letter-spacing: -0.05em;
+    line-height: 1;
+    margin-bottom: 16px;
+  }
+
+  .output-card h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+    color: var(--white);
+  }
+
+  .output-card p {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* ── HOW IT WORKS ── */
+  .steps-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    position: relative;
+    margin-top: 64px;
+  }
+
+  .steps-grid::before {
+    content: '';
+    position: absolute;
+    top: 32px;
+    left: 16%;
+    right: 16%;
+    height: 1px;
+    background: linear-gradient(90deg, var(--green), var(--blue), var(--purple));
+    opacity: 0.3;
+  }
+
+  .step {
+    padding: 0 32px;
+    text-align: center;
+  }
+
+  .step-number {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    margin: 0 auto 28px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .step:nth-child(1) .step-number { background: rgba(0,232,122,0.12); color: var(--green); border: 1px solid rgba(0,232,122,0.3); }
+  .step:nth-child(2) .step-number { background: rgba(56,189,248,0.12); color: var(--blue); border: 1px solid rgba(56,189,248,0.3); }
+  .step:nth-child(3) .step-number { background: rgba(167,139,250,0.12); color: var(--purple); border: 1px solid rgba(167,139,250,0.3); }
+
+  .step h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    margin-bottom: 12px;
+    color: var(--white);
+  }
+
+  .step p {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.65;
+  }
+
+  .step-tag {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 100px;
+    font-size: 11px;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .step:nth-child(1) .step-tag { background: rgba(0,232,122,0.08); color: var(--green); }
+  .step:nth-child(2) .step-tag { background: rgba(56,189,248,0.08); color: var(--blue); }
+  .step:nth-child(3) .step-tag { background: rgba(167,139,250,0.08); color: var(--purple); }
+
+  /* ── SYSTEMS ── */
+  .systems-row {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+  }
+
+  .system-chip {
+    padding: 8px 16px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--dimmed);
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.02em;
+  }
+
+  /* ── FREE TRIAL ── */
+  .trial-section {
+    padding: 100px 48px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .trial-section::before {
+    content: '';
+    position: absolute;
+    width: 700px;
+    height: 700px;
+    background: radial-gradient(circle, rgba(0,232,122,0.07) 0%, transparent 70%);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+
+  .trial-inner {
+    position: relative;
+    z-index: 2;
+    max-width: 680px;
+    margin: 0 auto;
+    background: var(--surface);
+    border: 1px solid rgba(0,232,122,0.2);
+    border-radius: 28px;
+    padding: 72px 64px;
+  }
+
+  .trial-inner h2 { font-size: clamp(36px, 5vw, 56px); }
+
+  .trial-details {
+    display: flex;
+    gap: 32px;
+    justify-content: center;
+    margin: 40px 0;
+    flex-wrap: wrap;
+  }
+
+  .trial-detail {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: var(--dimmed);
+  }
+
+  .trial-detail::before {
+    content: '✓';
+    color: var(--green);
+    font-weight: 700;
+  }
+
+  .trial-inner .btn-primary { font-size: 18px; padding: 20px 48px; border-radius: 14px; }
+  
+  .trial-note {
+    margin-top: 20px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 40px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .footer-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--white);
+    letter-spacing: -0.03em;
+  }
+
+  .footer-logo span { color: var(--green); }
+
+  footer p {
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  footer a {
+    color: var(--dimmed);
+    text-decoration: none;
+    font-size: 13px;
+    transition: color 0.2s;
+  }
+
+  footer a:hover { color: var(--white); }
+
+  /* ── DIVIDER ── */
+  .divider { border: none; border-top: 1px solid var(--border); max-width: 1200px; margin: 0 auto; }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── SECURITY BADGE ── */
+  .security-row {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    flex-wrap: wrap;
+    margin-top: 48px;
+    padding: 24px 32px;
+    background: rgba(56,189,248,0.04);
+    border: 1px solid rgba(56,189,248,0.12);
+    border-radius: 14px;
+  }
+
+  .security-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    color: var(--dimmed);
+  }
+
+  .security-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--blue);
+    flex-shrink: 0;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    nav { padding: 14px 20px; }
+    .nav-links a { display: none; }
+    section { padding: 60px 20px; }
+    h1 { font-size: 40px; }
+    .problem-grid, .outputs-grid, .steps-grid { grid-template-columns: 1fr; }
+    .steps-grid::before { display: none; }
+    .solution-grid { grid-template-columns: 1fr; }
+    .feature-card.wide { grid-column: span 1; }
+    .hero-stats { gap: 24px; flex-wrap: wrap; }
+    .problem-section, .outputs-section { padding: 48px 24px; margin: 0 8px; }
+    .trial-inner { padding: 48px 24px; }
+    footer { flex-direction: column; gap: 16px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Lernean<span>Labs</span></a>
+  <div class="nav-links">
+    <a href="#problem">The Problem</a>
+    <a href="#solution">Solution</a>
+    <a href="#how">How It Works</a>
+    <a href="#trial" class="btn-nav">Start Free Trial</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">NCB Compliance · Automated</div>
+
+    <h1>
+      Your NCB compliance.<br>
+      <span class="gradient-text">Finally automated.</span>
+    </h1>
+
+    <p class="hero-sub">
+      LerneanLabs NCB Compliance solution eliminates the daily manual burden of maintaining registers, filing returns, and preparing for inspections — for every Schedule A controlled substance you handle.
+    </p>
+
+    <div class="hero-cta">
+      <a href="https://cal.com/lerneanlabs" target="_blank" class="btn-primary">
+        Book a Free 15-min Call →
+      </a>
+      <a href="#problem" class="btn-secondary">
+        See How It Works
+      </a>
+    </div>
+
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-num" style="color: var(--green);">3</div>
+        <div class="stat-label">Months Free</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">2 hrs</div>
+        <div class="stat-label">Inspection Ready</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">0</div>
+        <div class="stat-label">Manual Daily Entries</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num" style="color: var(--blue);">100%</div>
+        <div class="stat-label">Data Confidential</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- PROBLEM -->
+<div id="problem" style="padding: 100px 24px;">
+  <div class="problem-section reveal">
+    <span class="section-label">The Problem</span>
+    <h2>A compliance burden<br>that never sleeps.</h2>
+    <p class="section-sub">
+      Every company holding a URN under the Narcotic Drugs and Psychotropic Substances (Regulation of Controlled Substances) Order, 2013 carries obligations that run 365 days a year — and the penalty for slipping is severe.
+    </p>
+
+    <div class="problem-grid">
+      <div class="problem-card">
+        <div class="problem-icon icon-red">📋</div>
+        <h3>Daily Register. Every Single Day.</h3>
+        <p>Nil-transaction days still require an entry. Saturdays, holidays, slow weeks — the register never pauses. Miss entries and your quarterly return becomes non-compliant.</p>
+      </div>
+      <div class="problem-card">
+        <div class="problem-icon icon-orange">📅</div>
+        <h3>365 Days. No Exceptions.</h3>
+        <p>The daily register doesn't pause for weekends, slow months, or zero-movement days. Every single day needs an entry. Every single day someone has to do it manually — until now.</p>
+        <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-top:18px;">
+          <!-- Mini calendar grid visualization -->
+          <style>
+            .day-dot{width:100%;aspect-ratio:1;border-radius:3px;background:rgba(251,146,60,0.15);border:1px solid rgba(251,146,60,0.2);}
+            .day-dot.active{background:rgba(251,146,60,0.35);border-color:rgba(251,146,60,0.5);}
+            .day-dot.problem{background:rgba(239,68,68,0.35);border-color:rgba(239,68,68,0.5);}
+          </style>
+          <script>
+            document.addEventListener('DOMContentLoaded',()=>{
+              const grid=document.getElementById('daygrid');
+              for(let i=0;i<28;i++){
+                const d=document.createElement('div');
+                d.className='day-dot'+(i%7===0||i%7===6?' problem':i<21?' active':'');
+                grid.appendChild(d);
+              }
+            });
+          </script>
+          <div id="daygrid" style="display:grid;grid-template-columns:repeat(7,1fr);gap:3px;grid-column:1/-1;margin-top:4px;"></div>
+        </div>
+        <p style="font-size:12px;margin-top:10px;color:var(--muted);font-family:'JetBrains Mono',monospace;">
+          <span style="color:rgba(239,68,68,0.8);">■</span> Weekends still need entries &nbsp;
+          <span style="color:rgba(251,146,60,0.8);">■</span> Working days
+        </p>
+      </div>
+      <div class="problem-card">
+        <div class="problem-icon icon-yellow">⚠️</div>
+        <h3>Three Missed Quarters: URN Revoked</h3>
+        <p>There is no grace period. Three consecutive missed quarterly returns (Form-E or Form-F) and the NCB initiates automatic revocation proceedings — for all registered entities, all locations.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SOLUTION -->
+<section id="solution" class="reveal">
+  <span class="section-label">The Solution</span>
+  <h2>Everything automated.<br>From your existing system.</h2>
+  <p class="section-sub">
+    No new software to learn. Works with Tally, Excel, Google Sheets, or physical registers. We plug in under the Narcotic Drugs and Psychotropic Substances (Regulation of Controlled Substances) Order, 2013. You breathe.
+  </p>
+
+  <div class="solution-grid">
+    <div class="feature-card" style="--accent-color: var(--green);">
+      <span class="feature-accent" style="color: var(--green);">Core Feature</span>
+      <h3>Daily NCB Register — Automated</h3>
+      <p>Every night, our system reads your transactions and writes the correct NCB daily register entry. Nil-transaction days are handled automatically. You wake up compliant.</p>
+      <ul class="feature-list">
+        <li>Correct NCB format, every night</li>
+        <li>Nil entries auto-generated — no manual action</li>
+        <li>Closing stock balance maintained and verified</li>
+      </ul>
+    </div>
+
+    <div class="feature-card" style="--accent-color: var(--blue);">
+      <span class="feature-accent" style="color: var(--blue);">Quarterly Filing</span>
+      <h3>Form-E / Form-F in 2 Clicks</h3>
+      <p>When the quarter ends, your quarterly return is already generated — Form-E for manufacturers, Form-F for traders and dealers. Full reconciliation confirmation — "All quantities balance. 0 discrepancies." — before you submit to the Zonal NCB Director.</p>
+      <ul class="feature-list">
+        <li>Form-E (manufacture) or Form-F (trade/sale/import/export) auto-generated</li>
+        <li>Complete reconciliation before filing</li>
+        <li>Timestamped submission record</li>
+      </ul>
+    </div>
+
+    <div class="feature-card" style="--accent-color: var(--purple);">
+      <span class="feature-accent" style="color: var(--purple);">URN Verification</span>
+      <h3>Counterparty Risk — Eliminated</h3>
+      <p>Receiving from a supplier with a lapsed URN makes you non-compliant — even if you didn't know. We verify every counterparty's URN before the transaction is recorded. Form-G consignment notes are tracked for every inward consignment.</p>
+      <ul class="feature-list">
+        <li>URN validity checked on every transaction</li>
+        <li>Invalid suppliers flagged before you transact</li>
+        <li>Form-G consignment note tracking included</li>
+      </ul>
+    </div>
+
+    <div class="feature-card" style="--accent-color: var(--orange);">
+      <span class="feature-accent" style="color: var(--orange);">Inspection Readiness</span>
+      <h3>Pre-Inspection Package in 2 Hours</h3>
+      <p>NCB inspectors give 24–48 hours notice. We give you the complete inspection-ready document package — daily register, closing stock log, quarterly returns, URN verification trail — in 2 hours.</p>
+      <ul class="feature-list">
+        <li>Complete records, correctly formatted</li>
+        <li>2 hours — not 3 days</li>
+        <li>Multi-location reports if required</li>
+      </ul>
+    </div>
+
+    <div class="feature-card wide" style="--accent-color: var(--blue);">
+      <span class="feature-accent" style="color: var(--blue);">Data Security</span>
+      <h3>Your data is yours. Always.</h3>
+      <p>Controlled substance transaction data is sensitive. We encrypt everything in transit and at rest. Your data is never shared, sold, or used for any purpose beyond generating your compliance reports.</p>
+      <div class="security-row">
+        <div class="security-item"><div class="security-dot"></div> Encrypted in transit and at rest</div>
+        <div class="security-item"><div class="security-dot"></div> Never shared or sold to any third party</div>
+        <div class="security-item"><div class="security-dot"></div> Used only for your compliance reports</div>
+        <div class="security-item"><div class="security-dot"></div> Delete your data anytime, on request</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OUTPUTS -->
+<div id="outputs" style="padding: 0 24px 100px;">
+  <div class="outputs-section reveal">
+    <span class="section-label">What You Get</span>
+    <h2>Six outputs.<br>Zero manual effort.</h2>
+
+    <div class="outputs-grid">
+      <div class="output-card">
+        <div class="output-number" style="color: var(--green);">01</div>
+        <h3>Daily NCB Register</h3>
+        <p>Correctly formatted, auto-updated nightly. Nil entries included. Never a gap.</p>
+      </div>
+      <div class="output-card">
+        <div class="output-number" style="color: var(--blue);">02</div>
+        <h3>Quarterly Return (Form-E / F)</h3>
+        <p>Auto-generated per substance per location — Form-E for manufacturers, Form-F for traders. Ready for submission to your Zonal NCB Director.</p>
+      </div>
+      <div class="output-card">
+        <div class="output-number" style="color: var(--purple);">03</div>
+        <h3>Discrepancy Alerts</h3>
+        <p>Real-time closing stock alerts. Catch mismatches before they become inspection issues.</p>
+      </div>
+      <div class="output-card">
+        <div class="output-number" style="color: var(--orange);">04</div>
+        <h3>URN Verification Log</h3>
+        <p>Documented proof of counterparty URN status for every transaction, every day.</p>
+      </div>
+      <div class="output-card">
+        <div class="output-number" style="color: var(--green);">05</div>
+        <h3>Pre-Inspection Package</h3>
+        <p>Complete record set — daily register, returns, URN logs — compiled in 2 hours.</p>
+      </div>
+      <div class="output-card">
+        <div class="output-number" style="color: var(--blue);">06</div>
+        <h3>Reconciliation Report</h3>
+        <p>Full quarterly reconciliation before every filing. "0 discrepancies" before you submit.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<section id="how" class="reveal">
+  <span class="section-label">Getting Started</span>
+  <h2>Up and running<br>in one conversation.</h2>
+  <p class="section-sub">
+    No IT project. No new software. Works with whatever system you already use to record transactions.
+  </p>
+
+  <div style="margin-bottom: 48px;">
+    <p style="font-size: 14px; color: var(--muted); margin-bottom: 16px; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.08em; text-transform: uppercase;">Works with any of these:</p>
+    <div class="systems-row">
+      <div class="system-chip">Tally ERP 9</div>
+      <div class="system-chip">TallyPrime</div>
+      <div class="system-chip">Microsoft Excel</div>
+      <div class="system-chip">Google Sheets</div>
+      <div class="system-chip">Physical Registers</div>
+      <div class="system-chip">Any format</div>
+    </div>
+  </div>
+
+  <div class="steps-grid">
+    <div class="step">
+      <div class="step-number">01</div>
+      <span class="step-tag">Day 1</span>
+      <h3>Book a 15-min Call</h3>
+      <p>Tell us which substances you hold URNs for, how you currently record transactions, and how many locations you operate from. That's all we need.</p>
+    </div>
+    <div class="step">
+      <div class="step-number">02</div>
+      <span class="step-tag">Day 2–3</span>
+      <h3>We Connect & Configure</h3>
+      <p>We set up the integration with your existing system. No IT department required. You share read access to your records — we handle the rest.</p>
+    </div>
+    <div class="step">
+      <div class="step-number">03</div>
+      <span class="step-tag">Day 4 onwards</span>
+      <h3>Never Touch It Again</h3>
+      <p>Your daily register updates itself every night. Your quarterly Form-E/Form-F generates itself. Your pre-inspection package is always ready. Compliance runs in the background.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FREE TRIAL -->
+<div id="trial" class="trial-section reveal">
+  <div class="trial-inner">
+    <span class="section-label" style="margin-bottom: 20px;">Free Trial</span>
+    <h2>Start free.<br><span class="gradient-text">Risk nothing.</span></h2>
+    <p style="color: var(--dimmed); font-size: 16px; margin-top: 16px; line-height: 1.65;">
+      2 months completely free. No contract. No credit card.<br>
+      If it doesn't save your team time, we part as friends — no questions asked.
+    </p>
+
+    <div class="trial-details">
+      <div class="trial-detail">2 months free</div>
+      <div class="trial-detail">No contract</div>
+      <div class="trial-detail">No credit card</div>
+      <div class="trial-detail">Up to 3 substances</div>
+      <div class="trial-detail">Any accounting system</div>
+    </div>
+
+    <a href="https://cal.com/lerneanlabs" target="_blank" class="btn-primary">
+      Book Your Free Call →
+    </a>
+
+    <p class="trial-note">
+      Or email us directly: <a href="mailto:lerneantechlabs@gmail.com" style="color: var(--green); text-decoration: none;">lerneantechlabs@gmail.com</a>
+      &nbsp;·&nbsp; +91-9901352899
+    </p>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<hr class="divider">
+<footer>
+  <div class="footer-logo">Lernean<span>Labs</span> Solutions</div>
+  <p>NCB Compliance · Bengaluru, India</p>
+  <div style="display: flex; gap: 24px;">
+    <a href="mailto:lerneantechlabs@gmail.com">lerneantechlabs@gmail.com</a>
+    <a href="https://cal.com/lerneanlabs">cal.com/lerneanlabs</a>
+  </div>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+
+  // Nav scroll effect
+  window.addEventListener('scroll', () => {
+    document.querySelector('nav').style.borderBottomColor =
+      window.scrollY > 50 ? 'rgba(255,255,255,0.1)' : 'rgba(255,255,255,0.07)';
+  });
+</script>
+</body>
+</html>
