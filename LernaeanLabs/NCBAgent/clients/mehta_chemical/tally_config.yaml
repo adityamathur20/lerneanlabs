@@ -1,0 +1,64 @@
+# Tally XML config for Mehta Chemical Traders
+# Maps Tally stock item names → canonical Schedule A substance names
+# Add aliases as the client's Tally item master evolves.
+
+client_id: mehta_chemical
+
+# Maps Tally STOCKITEMNAME values → canonical Schedule A names
+# Exact match, case-insensitive
+stock_item_alias_map:
+  "Acetic Anhydride":            "Acetic Anhydride"
+  "Acetic Anhydride BP Grade":   "Acetic Anhydride"
+  "Acetic Anhydride Tech":       "Acetic Anhydride"
+  "AA-Tech":                     "Acetic Anhydride"
+  "Anthranilic Acid":            "Anthranilic Acid"
+  "Anthranilic Acid 99%":        "Anthranilic Acid"
+  "2-AB":                        "Anthranilic Acid"
+  "N-Acetylanthranilic Acid":    "N-Acetylanthranilic Acid"
+  "NAAA":                        "N-Acetylanthranilic Acid"
+  "Ephedrine":                   "Ephedrine"
+  "Ephedrine HCl":               "Ephedrine"
+  "Pseudoephedrine":             "Pseudoephedrine"
+  "Pseudoephedrine HCl":         "Pseudoephedrine"
+
+# Tally UDF field names where NCB-specific data is stored.
+# These must be created as User Defined Fields in TallyPrime under
+# Accounts Info → Voucher Types → Alter → User Defined Fields.
+# If not set up in Tally, the parser falls back to counterparty_urn_lookup below.
+urn_udf_field: "COUNTERPARTYURN"
+form_g_udf_field: "FORMGNO"
+
+# Quantity unit in Tally export — Tally stores as "150 Kg", "30 Kg" etc.
+# Parser strips the unit suffix and converts to Decimal kg
+quantity_unit: "Kg"
+
+# Voucher type names that indicate a Manufacturing Journal.
+# Add any custom voucher type names used by this client's Tally setup.
+# Case-insensitive matching.
+manufacturing_voucher_types:
+  - "Manufacturing Journal"
+  - "Stock Journal"
+  - "Production"
+  - "Manufacturing"
+
+# Counterparty URN lookup — fallback when COUNTERPARTYURN UDF is not populated in Tally.
+# Key: company name exactly as it appears in Tally's PARTYLEDGERNAME (case-insensitive).
+# Value: NCB URN.
+# Update this table whenever a new supplier or customer is added in Tally.
+counterparty_urn_lookup:
+  "deepak nitrite ltd":               "NCB-GJ-2014-012345"
+  "deepak nitrite limited":           "NCB-GJ-2014-012345"
+  "gnfc ltd":                         "NCB-GJ-2015-004521"
+  "gujarat narmada valley fertilizers": "NCB-GJ-2015-004521"
+  "aarti industries ltd":             "NCB-GJ-2012-011890"
+  "aarti industries limited":         "NCB-GJ-2012-011890"
+  "kanoria chemicals":                "NCB-GJ-2016-051234"
+  "kanoria chemicals & industries":   "NCB-GJ-2016-051234"
+  "jubilant life sciences":           "NCB-UP-2013-021456"
+  "jubilant life sciences ltd":       "NCB-UP-2013-021456"
+  "dev international":                "NCB-GJ-2017-031789"
+  "vitrag chemicals":                 "NCB-GJ-2022-009456"
+  "ishita industries":                "NCB-GJ-2018-003891"
+  "laxmi organic industries":         "NCB-MH-2018-061567"
+  "endemic india chemicals":          "NCB-GJ-2021-041023"
+  "jackson chemical industries":      "NCB-GJ-2019-001234"

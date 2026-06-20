@@ -1,0 +1,241 @@
+{
+  "_meta": {
+    "document": "GSTR-1 Draft",
+    "produced_by": "GST Agent",
+    "produced_at": "2024-11-01T23:47:22+05:30",
+    "status": "DRAFT — Requires CA review and approval before upload",
+    "issues_flagged": 2,
+    "comment": "Invoice MTT/OCT/004 (Verma Traders) moved from B2B to B2CS due to cancelled GSTIN. HSN mismatch flagged on MTT/OCT/003 for CA to verify."
+  },
+
+  "gstin": "24AABMT1234C1Z5",
+  "fp": "102024",
+  "gt": 555000.00,
+  "cur_gt": 555000.00,
+
+  "b2b": [
+    {
+      "_comment": "B2B: Sales to GST-registered buyers with ACTIVE GSTIN",
+      "ctin": "24AAFPG1234D1Z9",
+      "inv": [
+        {
+          "inum": "MTT/OCT/001",
+          "idt": "01-10-2024",
+          "val": 134400.00,
+          "pos": "24",
+          "rchrg": "N",
+          "inv_typ": "R",
+          "itms": [
+            {
+              "num": 1,
+              "itm_det": {
+                "txval": 120000.00,
+                "rt": 12,
+                "camt": 7200.00,
+                "samt": 7200.00,
+                "csamt": 0.00
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "ctin": "27AAFSG5678B1Z3",
+      "_note": "Inter-state supply to Maharashtra — IGST applies",
+      "inv": [
+        {
+          "inum": "MTT/OCT/002",
+          "idt": "05-10-2024",
+          "val": 95200.00,
+          "pos": "27",
+          "rchrg": "N",
+          "inv_typ": "R",
+          "itms": [
+            {
+              "num": 1,
+              "itm_det": {
+                "txval": 85000.00,
+                "rt": 12,
+                "iamt": 10200.00,
+                "camt": 0.00,
+                "samt": 0.00,
+                "csamt": 0.00
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "ctin": "24AABGE3456F1Z7",
+      "_agent_flag": "⚠️ ISSUE_003: HSN code 5407 on this invoice may be incorrect. Item 'Cotton Plain Weave Fabric 60x60' typically maps to HSN 5208. Please verify before filing.",
+      "inv": [
+        {
+          "inum": "MTT/OCT/003",
+          "idt": "10-10-2024",
+          "val": 235200.00,
+          "pos": "24",
+          "rchrg": "N",
+          "inv_typ": "R",
+          "itms": [
+            {
+              "num": 1,
+              "itm_det": {
+                "txval": 210000.00,
+                "rt": 12,
+                "camt": 12600.00,
+                "samt": 12600.00,
+                "csamt": 0.00
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "ctin": "24AABJT7890G1Z1",
+      "inv": [
+        {
+          "inum": "MTT/OCT/005",
+          "idt": "22-10-2024",
+          "val": 106400.00,
+          "pos": "24",
+          "rchrg": "N",
+          "inv_typ": "R",
+          "itms": [
+            {
+              "num": 1,
+              "itm_det": {
+                "txval": 95000.00,
+                "rt": 12,
+                "camt": 5700.00,
+                "samt": 5700.00,
+                "csamt": 0.00
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+
+  "b2cs": [
+    {
+      "_comment": "B2CS: Originally B2B invoice MTT/OCT/004, reclassified because Verma Traders GSTIN is CANCELLED",
+      "_agent_action": "ISSUE_001 — Moved from B2B to B2CS. GST liability unchanged (₹5,400). Buyer cannot claim ITC.",
+      "_original_buyer": "Verma Traders (GSTIN 24AAFVT9999Z1Z9 — CANCELLED 15-Sep-2024)",
+      "sply_ty": "INTRA",
+      "pos": "24",
+      "rt": 12,
+      "txval": 45000.00,
+      "camt": 2700.00,
+      "samt": 2700.00,
+      "csamt": 0.00
+    }
+  ],
+
+  "hsn": {
+    "data": [
+      {
+        "num": 1,
+        "hsn_sc": "5407",
+        "desc": "Woven fabrics of synthetic filament yarn",
+        "uqc": "MTR",
+        "qty": 2500,
+        "txval": 120000.00,
+        "rt": 12,
+        "camt": 7200.00,
+        "samt": 7200.00,
+        "iamt": 0.00,
+        "csamt": 0.00
+      },
+      {
+        "num": 2,
+        "hsn_sc": "5208",
+        "desc": "Woven fabrics of cotton (< 85% by weight)",
+        "uqc": "MTR",
+        "qty": 1000,
+        "txval": 85000.00,
+        "rt": 12,
+        "iamt": 10200.00,
+        "camt": 0.00,
+        "samt": 0.00,
+        "csamt": 0.00
+      },
+      {
+        "num": 3,
+        "hsn_sc": "5407",
+        "_agent_flag": "⚠️ CHECK: Invoice MTT/OCT/003 uses HSN 5407 for 'Cotton Plain Weave' — should likely be 5208. CA to verify.",
+        "desc": "Woven fabrics of synthetic filament yarn [VERIFY]",
+        "uqc": "MTR",
+        "qty": 3000,
+        "txval": 210000.00,
+        "rt": 12,
+        "camt": 12600.00,
+        "samt": 12600.00,
+        "iamt": 0.00,
+        "csamt": 0.00
+      },
+      {
+        "num": 4,
+        "hsn_sc": "5512",
+        "desc": "Woven fabrics of synthetic staple fibres (>= 85%)",
+        "uqc": "MTR",
+        "qty": 500,
+        "txval": 45000.00,
+        "rt": 12,
+        "camt": 2700.00,
+        "samt": 2700.00,
+        "iamt": 0.00,
+        "csamt": 0.00
+      },
+      {
+        "num": 5,
+        "hsn_sc": "5309",
+        "desc": "Woven fabrics of other vegetable textile fibres (linen)",
+        "uqc": "MTR",
+        "qty": 1000,
+        "txval": 95000.00,
+        "rt": 12,
+        "camt": 5700.00,
+        "samt": 5700.00,
+        "iamt": 0.00,
+        "csamt": 0.00
+      }
+    ]
+  },
+
+  "doc_sum": {
+    "doc_det": [
+      {
+        "doc_num": 1,
+        "doc_typ": "Invoices for outward supply",
+        "docs": [
+          {
+            "num": 1,
+            "from": "MTT/OCT/001",
+            "to": "MTT/OCT/005",
+            "totnum": 5,
+            "cancel": 0,
+            "net_issue": 5
+          }
+        ]
+      }
+    ]
+  },
+
+  "summary": {
+    "total_taxable_value": 555000.00,
+    "total_igst": 10200.00,
+    "total_cgst": 33300.00,
+    "total_sgst": 33300.00,
+    "total_invoice_value": 621600.00,
+    "b2b_invoice_count": 4,
+    "b2cs_count": 1,
+    "issues_requiring_ca_action": [
+      "MTT/OCT/003: Verify HSN code (5407 vs 5208 for cotton fabric)",
+      "MTT/OCT/004: Reclassified to B2CS — CA to confirm buyer informed they cannot claim ITC"
+    ]
+  }
+}

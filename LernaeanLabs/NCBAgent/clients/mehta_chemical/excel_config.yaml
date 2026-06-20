@@ -1,0 +1,95 @@
+# Excel / Google Sheets column mapping for Mehta Chemical Traders
+# This config maps Mehta's column headers to NCBAgent's canonical field names.
+# Update this file if the client changes their Excel format.
+
+client_id: mehta_chemical
+
+input:
+#  type: excel                       # excel | google_sheets
+#  # --- Google Sheets (only when type: google_sheets) ---
+#  google_sheet_id: null             # e.g. "1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgVE2upms"
+#  service_account_key_path: null    # path to service account JSON — keep outside repo
+  type: google_sheets # excel | google_sheets
+  # --- Google Sheets (only when type: google_sheets) ---
+  google_sheet_id: "1Akgk8prcvfiZleUVzGwUDrqAexwMb8fK0DuOCjyvElw"             # e.g. "1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgVE2upms"
+  service_account_key_path:  /Users/adityamathur/Downloads/learneanlabs-0b5175506399.json   # path to service account JSON — keep outside repo
+
+# One entry per sheet. Add more sheets if purchases/sales are split across tabs.
+sheets:
+  - sheet_name: "NCB Ledger"
+    txn_type_mode: column           # fixed | column
+    # txn_type_mode: fixed → set txn_type_fixed to PURCHASE or SALE
+    # txn_type_mode: column → read transaction type from txn_type_column
+    txn_type_fixed: null
+    txn_type_column: "Txn Type"
+    txn_type_map:
+      "PURCHASE": PURCHASE
+      "SALE": SALE
+      "Purchase": PURCHASE
+      "Sale": SALE
+      "B": PURCHASE
+      "S": SALE
+
+    header_row: 1                   # 1-indexed row containing column headers
+    data_starts_row: 2              # 1-indexed first data row
+    skip_rows: []                   # 1-indexed rows to skip (totals rows, signature rows, etc.)
+
+    # Map canonical field names → actual column headers in this client's file
+    # Required fields: date, txn_type (or fixed), counterparty, substance, quantity_kg
+    # Optional fields: voucher_no, counterparty_urn, item_code, rate_inr_per_kg, amount_inr, form_g_no
+    columns:
+      date:               "Date"
+      voucher_no:         "Voucher No"
+      counterparty:       "Counterparty"
+      counterparty_urn:   "Counterparty URN"
+      substance:          "Substance"
+      item_code:          "Item Code"
+      quantity_kg:        "Qty (kg)"
+      rate_inr_per_kg:    "Rate (₹/kg)"
+      amount_inr:         "Amount (₹)"
+      form_g_no:          "Form-G No"
+
+# Date format in strptime notation
+# Common formats: "%d-%b-%Y" (11-Mar-2026), "%d/%m/%Y" (11/03/2026), "%Y-%m-%d" (2026-03-11)
+date_format: "%d-%b-%Y"
+
+# Maps client-specific substance names → canonical Schedule A names
+# Case-insensitive exact match. Add aliases as discovered during onboarding.
+substance_alias_map:
+  "Acetic Anhydride BP Grade":   "Acetic Anhydride"
+  "Acetic Anhydride Tech":       "Acetic Anhydride"
+  "Acetic Anhydride":            "Acetic Anhydride"
+  "AA":                          "Acetic Anhydride"
+  "Anthranilic Acid 99%":        "Anthranilic Acid"
+  "Anthranilic Acid":            "Anthranilic Acid"
+  "2-Aminobenzoic Acid":         "Anthranilic Acid"
+  "o-Aminobenzoic Acid":         "Anthranilic Acid"
+  "N-Acetylanthranilic Acid":    "N-Acetylanthranilic Acid"
+  "NAAA":                        "N-Acetylanthranilic Acid"
+  "N-AA":                        "N-Acetylanthranilic Acid"
+  "Ephedrine":                   "Ephedrine"
+  "Ephedrine HCl":               "Ephedrine"
+  "L-Ephedrine":                 "Ephedrine"
+  "Pseudoephedrine":             "Pseudoephedrine"
+  "Pseudoephedrine HCl":         "Pseudoephedrine"
+
+# Advanced: extract substance from a description/narration column using regex
+# Enable only if substance does not have its own column
+substance_extraction:
+  enabled: false
+  source_column: "Narration"
+  pattern: "(Acetic Anhydride|Anthranilic Acid|N-Acetylanthranilic Acid|Ephedrine|Pseudoephedrine)"
+
+# Advanced: normalise mixed units to kilograms
+# Enable only if client mixes units across rows
+qty_unit_normalisation:
+  enabled: false
+  unit_column: "Unit"
+  unit_map:
+    "kg":  1
+    "KG":  1
+    "Kg":  1
+    "g":   0.001
+    "gm":  0.001
+    "MT":  1000
+    "mt":  1000

@@ -1,0 +1,47 @@
+# Client profile for Mehta Chemical Traders Pvt Ltd
+# Fictional demo client — Ankleshwar GIDC, Bharuch, Gujarat
+
+client_id: mehta_chemical
+client_name: "Mehta Chemical Traders Pvt Ltd"
+entity_type: trader           # trader | manufacturer | both
+                              # trader → Form D (daily) + Form F (quarterly)
+                              # manufacturer → Form C (daily) + Form E (quarterly)
+
+urn: "NCB-GJ-2020-007890"
+gstin: "24AABCM1234F1ZK"
+address: "Plot No. 12, GIDC Phase-II, Ankleshwar, Bharuch, Gujarat - 393002"
+zonal_unit: "NCB Zonal Unit, Ahmedabad"
+compliance_officer_name: "Ramesh Mehta"
+compliance_officer_phone: "+91-9825012345"
+tier: standard                # standard (1-2 substances) | enterprise (3+ or import/export)
+
+substances:
+  - "Anthranilic Acid"
+  - "N-Acetylanthranilic Acid"
+  - "Acetic Anhydride"
+  - "Ephedrine"
+  - "Pseudoephedrine"
+
+# Opening stock per substance as of opening_stock_as_of date
+# Real client fills this during onboarding from their physical register balance
+opening_stock_kg:
+  "Anthranilic Acid": 100
+  "N-Acetylanthranilic Acid": 100
+  "Acetic Anhydride": 100
+  "Ephedrine": 100
+  "Pseudoephedrine": 100
+opening_stock_as_of: "2026-02-10"
+
+working_days:
+  days: [Mon, Tue, Wed, Thu, Fri, Sat]   # 6-day working week (default for Ankleshwar traders)
+  national_holidays:
+    # Add dates as notified by NCB Zonal Unit Ahmedabad
+    # Format: "YYYY-MM-DD"
+    - "2026-03-31"  # Eid al-Fitr (tentative 2026)
+    - "2026-04-14"  # Dr. B.R. Ambedkar Jayanti
+    - "2026-08-15"  # Independence Day
+    - "2026-10-02"  # Gandhi Jayanti
+    - "2026-11-05"  # Diwali (tentative)
+    # TODO: confirm dates with NCB Zonal Unit Ahmedabad each year
+
+input_method: excel           # excel | google_sheets | tally_xml

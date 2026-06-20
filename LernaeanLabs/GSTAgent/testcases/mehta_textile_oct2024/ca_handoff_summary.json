@@ -1,0 +1,78 @@
+{
+  "_meta": {
+    "document": "CA Handoff Package",
+    "to": "Rajesh Shah CA",
+    "to_email": "rajesh.shah.ca@gmail.com",
+    "client": "Mehta Textile Traders",
+    "client_gstin": "24AABMT1234C1Z5",
+    "period": "October 2024",
+    "prepared_by": "GST Agent",
+    "prepared_at": "2024-11-01T23:47:52+05:30",
+    "action_required_by": "2024-11-08",
+    "gstr1_due": "2024-11-11",
+    "gstr3b_due": "2024-11-20"
+  },
+
+  "executive_summary": "3 issues found. 2 require your decision before GSTR-1 can be filed. Estimated net tax payable: ₹31,440. GSTR-1 and GSTR-3B drafts are ready pending your review.",
+
+  "decisions_required_from_ca": [
+    {
+      "priority": 1,
+      "decision": "Verma Traders (MTT/OCT/004) — Confirm reclassification from B2B to B2CS",
+      "context": "GSTIN cancelled Sep 15, 2024. Invoice dated Oct 15, 2024. Agent has moved to B2CS in draft.",
+      "options": ["APPROVE reclassification to B2CS", "DISCUSS with Mehta first"],
+      "tax_impact": "None — ₹5,400 GST still payable"
+    },
+    {
+      "priority": 2,
+      "decision": "Dye Masters ITC (DM/2024/387) — Claim ₹5,040 or defer?",
+      "context": "Supplier hasn't filed GSTR-1. Not in GSTR-2B. Agent excluded from draft (conservative).",
+      "options": [
+        "DEFER — do not claim. Safer. Claim next month if supplier files.",
+        "CLAIM provisionally — saves ₹5,040 now but risk reversal with 24% interest if supplier never files."
+      ],
+      "recommendation": "Defer. Call Dye Masters and ask them to file before Nov 13.",
+      "tax_impact": "₹5,040 difference in tax payable this month"
+    },
+    {
+      "priority": 3,
+      "decision": "HSN code on MTT/OCT/003 (Gupta Exports) — 5407 or 5208?",
+      "context": "Item is 'Cotton Plain Weave Fabric'. HSN 5407 = synthetic. HSN 5208 = cotton. Both are 12%.",
+      "options": ["CONFIRM 5407 if fabric is synthetic blend", "CHANGE to 5208 if fabric is pure cotton"],
+      "tax_impact": "None — same GST rate. Matters for annual HSN accuracy."
+    }
+  ],
+
+  "files_attached": {
+    "gstr1_draft": "gstr1_draft/gstr1_draft_oct2024.json",
+    "gstr3b_draft": "gstr3b_draft/gstr3b_draft_oct2024.json",
+    "reconciliation_report": "agent_output/reconciliation_report.json",
+    "tally_sales": "tally_export/sales_daybook_oct2024.xml",
+    "tally_purchases": "tally_export/purchase_daybook_oct2024.xml",
+    "gstr2b": "gstr2b/gstr2b_oct2024.json"
+  },
+
+  "tax_payable_summary": {
+    "output_igst": 10200.00,
+    "output_cgst": 33300.00,
+    "output_sgst": 33300.00,
+    "itc_igst": 10200.00,
+    "itc_cgst": 17580.00,
+    "itc_sgst": 17580.00,
+    "net_igst": 0.00,
+    "net_cgst": 15720.00,
+    "net_sgst": 15720.00,
+    "challan_amount": 31440.00,
+    "note": "Instruct Mehta to deposit ₹31,440 via GST portal by Nov 18"
+  },
+
+  "filing_checklist": [
+    { "step": 1, "task": "Review and approve GSTR-1 draft", "owner": "CA", "by": "Nov 8" },
+    { "step": 2, "task": "Resolve HSN question on MTT/OCT/003", "owner": "CA + Mehta", "by": "Nov 8" },
+    { "step": 3, "task": "Decide on Dye Masters ITC strategy", "owner": "CA", "by": "Nov 8" },
+    { "step": 4, "task": "File GSTR-1 on portal", "owner": "CA", "by": "Nov 11" },
+    { "step": 5, "task": "Instruct Mehta to pay ₹31,440 challan", "owner": "CA", "by": "Nov 18" },
+    { "step": 6, "task": "Verify auto-population in GSTR-3B", "owner": "CA", "by": "Nov 19" },
+    { "step": 7, "task": "File GSTR-3B with DSC/EVC", "owner": "CA", "by": "Nov 20" }
+  ]
+}

@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  MOCK TALLY PRIME XML EXPORT
+  Report: Day Book (All Vouchers — NCB-relevant substances only)
+  Company: Mehta Chemical Traders Pvt Ltd
+  URN: NCB-GJ-2020-007890
+  Period: 01-Apr-2026 to 30-Apr-2026
+
+  This fixture covers:
+    1. Purchase voucher — single inventory item, URN from UDF
+    2. Purchase voucher — multi-item (two Schedule A substances on one invoice)
+    3. Sale voucher — URN from lookup table (UDF empty), Form G present
+    4. Sale voucher — URN missing entirely (flags URN_MISSING + MISSING_FORM_G)
+    5. Manufacturing Journal — one consumed item + one produced item (Form C test)
+    6. Payment voucher — no inventory, must be silently skipped
+-->
+<ENVELOPE>
+  <HEADER>
+    <TALLYREQUEST>Export</TALLYREQUEST>
+    <TYPE>Data</TYPE>
+    <SUBTYPE>Vouchers</SUBTYPE>
+    <ID>Day Book</ID>
+  </HEADER>
+
+  <BODY>
+    <EXPORTDATA>
+
+      <!-- ============================================================
+           1. PURCHASE — single item, URN from UDF field
+           ============================================================ -->
+      <TALLYMESSAGE>
+        <VOUCHER VCHTYPE="Purchase" ACTION="Create">
+          <DATE>20260402</DATE>
+          <VOUCHERTYPENAME>Purchase</VOUCHERTYPENAME>
+          <VOUCHERNUMBER>PUR/2026/0042</VOUCHERNUMBER>
+          <PARTYLEDGERNAME>Deepak Nitrite Ltd</PARTYLEDGERNAME>
+
+          <!-- UDF: NCB counterparty URN -->
+          <COUNTERPARTYURN.LIST>
+            <COUNTERPARTYURN>NCB-GJ-2014-012345</COUNTERPARTYURN>
+          </COUNTERPARTYURN.LIST>
+
+          <!-- UDF: Form G number (relevant for sales; blank on purchases) -->
+          <FORMGNO.LIST>
+            <FORMGNO></FORMGNO>
+          </FORMGNO.LIST>
+
+          <ALLINVENTORYENTRIES.LIST>
+            <STOCKITEMNAME>Anthranilic Acid</STOCKITEMNAME>
+            <ISDEEMEDPOSITIVE>Yes</ISDEEMEDPOSITIVE>
+            <ACTUALQTY>498 Kg</ACTUALQTY>
+            <RATE>810.50/Kg</RATE>
+            <AMOUNT>-403629.00</AMOUNT>
+          </ALLINVENTORYENTRIES.LIST>
+        </VOUCHER>
+      </TALLYMESSAGE>
+
+      <!-- ============================================================
+           2. PURCHASE — multi-item (two substances on one invoice)
+           ============================================================ -->
+      <TALLYMESSAGE>
+        <VOUCHER VCHTYPE="Purchase" ACTION="Create">
+          <DATE>20260406</DATE>
+          <VOUCHERTYPENAME>Purchase</VOUCHERTYPENAME>
+          <VOUCHERNUMBER>PUR/2026/0048</VOUCHERNUMBER>
+          <PARTYLEDGERNAME>Aarti Industries Ltd</PARTYLEDGERNAME>
+
+          <!-- UDF absent — parser falls back to counterparty_urn_lookup -->
+
+          <ALLINVENTORYENTRIES.LIST>
+            <STOCKITEMNAME>Anthranilic Acid</STOCKITEMNAME>
+            <ISDEEMEDPOSITIVE>Yes</ISDEEMEDPOSITIVE>
+            <ACTUALQTY>336 Kg</ACTUALQTY>
+            <RATE>812.00/Kg</RATE>
+            <AMOUNT>-272832.00</AMOUNT>
+          </ALLINVENTORYENTRIES.LIST>
+
+          <ALLINVENTORYENTRIES.LIST>
+            <STOCKITEMNAME>Acetic Anhydride BP Grade</STOCKITEMNAME>
+            <ISDEEMEDPOSITIVE>Yes</ISDEEMEDPOSITIVE>
+            <ACTUALQTY>200 Kg</ACTUALQTY>
+            <RATE>215.00/Kg</RATE>
+            <AMOUNT>-43000.00</AMOUNT>
+          </ALLINVENTORYENTRIES.LIST>
+        </VOUCHER>
+      </TALLYMESSAGE>
+
+      <!-- ============================================================
+           3. SALE — URN resolved via lookup table (UDF empty), Form G present
+           ============================================================ -->
+      <TALLYMESSAGE>
+        <VOUCHER VCHTYPE="Sales" ACTION="Create">
+          <DATE>20260406</DATE>
+          <VOUCHERTYPENAME>Sales</VOUCHERTYPENAME>
+          <VOUCHERNUMBER>SAL/2026/0168</VOUCHERNUMBER>
+          <PARTYLEDGERNAME>Jackson Chemical Industries</PARTYLEDGERNAME>
+
+          <!-- UDF empty — will fall back to counterparty_urn_lookup -->
+          <COUNTERPARTYURN.LIST>
+            <COUNTERPARTYURN></COUNTERPARTYURN>
+          </COUNTERPARTYURN.LIST>
+
+          <FORMGNO.LIST>
+            <FORMGNO>FG/202604/0168</FORMGNO>
+          </FORMGNO.LIST>
+
+          <ALLINVENTORYENTRIES.LIST>
+            <STOCKITEMNAME>Anthranilic Acid</STOCKITEMNAME>
+            <ISDEEMEDPOSITIVE>No</ISDEEMEDPOSITIVE>
+            <ACTUALQTY>-152 Kg</ACTUALQTY>
+            <RATE>870.00/Kg</RATE>
+            <AMOUNT>132240.00</AMOUNT>
+          </ALLINVENTORYENTRIES.LIST>
+        </VOUCHER>
+      </TALLYMESSAGE>
+
+      <!-- ============================================================
+           4. SALE — URN completely missing, no Form G → dual flag
+           ============================================================ -->
+      <TALLYMESSAGE>
+        <VOUCHER VCHTYPE="Sales" ACTION="Create">
+          <DATE>20260410</DATE>
+          <VOUCHERTYPENAME>Sales</VOUCHERTYPENAME>
+          <VOUCHERNUMBER>SAL/2026/0180</VOUCHERNUMBER>
+          <PARTYLEDGERNAME>Unknown Buyer Co</PARTYLEDGERNAME>
+
+          <ALLINVENTORYENTRIES.LIST>
+            <STOCKITEMNAME>Ephedrine HCl</STOCKITEMNAME>
+            <ISDEEMEDPOSITIVE>No</ISDEEMEDPOSITIVE>
+            <ACTUALQTY>-50 Kg</ACTUALQTY>
+            <RATE>4500.00/Kg</RATE>
+            <AMOUNT>225000.00</AMOUNT>
+          </ALLINVENTORYENTRIES.LIST>
+        </VOUCHER>
+      </TALLYMESSAGE>
+
+      <!-- ============================================================
+           5. MANUFACTURING JOURNAL — consumed + produced (Form C test)
+              Uses FLOWTYPE tag (TallyPrime 3.x style)
+           ============================================================ -->
+      <TALLYMESSAGE>
+        <VOUCHER VCHTYPE="Manufacturing Journal" ACTION="Create">
+          <DATE>20260408</DATE>
+          <VOUCHERTYPENAME>Manufacturing Journal</VOUCHERTYPENAME>
+          <VOUCHERNUMBER>MFG/2026/0014</VOUCHERNUMBER>
+          <PARTYLEDGERNAME></PARTYLEDGERNAME>
+
+          <!-- Raw material consumed -->
+          <ALLINVENTORYENTRIES.LIST>
+            <STOCKITEMNAME>Anthranilic Acid 99%</STOCKITEMNAME>
+            <FLOWTYPE>Consumed</FLOWTYPE>
+            <ISDEEMEDPOSITIVE>No</ISDEEMEDPOSITIVE>
+            <ACTUALQTY>-100 Kg</ACTUALQTY>
+            <RATE>810.00/Kg</RATE>
+            <AMOUNT>81000.00</AMOUNT>
+          </ALLINVENTORYENTRIES.LIST>
+
+          <!-- Finished product produced -->
+          <ALLINVENTORYENTRIES.LIST>
+            <STOCKITEMNAME>N-Acetylanthranilic Acid</STOCKITEMNAME>
+            <FLOWTYPE>Produced</FLOWTYPE>
+            <ISDEEMEDPOSITIVE>Yes</ISDEEMEDPOSITIVE>
+            <ACTUALQTY>93 Kg</ACTUALQTY>
+            <RATE>1250.00/Kg</RATE>
+            <AMOUNT>-116250.00</AMOUNT>
+          </ALLINVENTORYENTRIES.LIST>
+        </VOUCHER>
+      </TALLYMESSAGE>
+
+      <!-- ============================================================
+           6. PAYMENT VOUCHER — no inventory, must be silently skipped
+           ============================================================ -->
+      <TALLYMESSAGE>
+        <VOUCHER VCHTYPE="Payment" ACTION="Create">
+          <DATE>20260409</DATE>
+          <VOUCHERTYPENAME>Payment</VOUCHERTYPENAME>
+          <VOUCHERNUMBER>PAY/2026/0031</VOUCHERNUMBER>
+          <PARTYLEDGERNAME>Deepak Nitrite Ltd</PARTYLEDGERNAME>
+          <ALLLEDGERENTRIES.LIST>
+            <LEDGERENTRY>
+              <LEDGERNAME>Deepak Nitrite Ltd</LEDGERNAME>
+              <AMOUNT>403629.00</AMOUNT>
+            </LEDGERENTRY>
+          </ALLLEDGERENTRIES.LIST>
+        </VOUCHER>
+      </TALLYMESSAGE>
+
+    </EXPORTDATA>
+  </BODY>
+</ENVELOPE>

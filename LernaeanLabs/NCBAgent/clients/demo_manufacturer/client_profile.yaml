@@ -1,0 +1,29 @@
+client_id: demo_manufacturer
+client_name: "Demo Pharma Pvt Ltd"
+entity_type: manufacturer
+urn: "NCB-MH-2019-003456"
+gstin: "27AADCD1234F1Z5"
+address: "Plot 12, MIDC Tarapur, Boisar, Maharashtra 401506"
+zonal_unit: "Western Zone, Mumbai"
+compliance_officer_name: "Ramesh Sharma"
+compliance_officer_phone: "+91-9876543210"
+tier: standard
+
+substances:
+  - "Acetic Anhydride"
+  - "Anthranilic Acid"
+
+opening_stock_kg:
+  "Acetic Anhydride": 500.000
+  "Anthranilic Acid": 200.000
+opening_stock_as_of: "2026-02-10"
+
+working_days:
+  days: [Mon, Tue, Wed, Thu, Fri, Sat]
+  national_holidays:
+    - "2026-03-31"   # Eid ul-Fitr (Ramzan)
+    - "2026-04-14"   # Ambedkar Jayanti
+    - "2026-04-02"   # Ram Navami
+    - "2026-04-06"   # Mahavir Jayanti
+
+input_method: excel
