@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  MOCK TALLY ERP 9 EXPORT
+  Report: Day Book (Sales Vouchers Only)
+  Company: Mehta Textile Traders
+  Period: 01-Oct-2024 to 31-Oct-2024
+  Exported: 01-Nov-2024 09:15:00
+  Format: XML (Data Interchange)
+
+  NOTE: This is a simulated export matching real Tally ERP 9 XML structure.
+  In production, this file is generated via:
+  Gateway of Tally > Display > Day Book > Alt+E (Export) > XML format
+  Or via HTTP API: POST http://localhost:9000 with TDL XML request
+-->
+<ENVELOPE>
+  <HEADER>
+    <TALLYREQUEST>Export</TALLYREQUEST>
+    <TYPE>Data</TYPE>
+    <SUBTYPE>Vouchers</SUBTYPE>
+    <ID>Day Book</ID>
+    <VERSION>1</VERSION>
+    <STATUS>1</STATUS>
+  </HEADER>
+
+  <BODY>
+    <EXPORTDATA>
+
+      <!-- ========================================
+           VOUCHER 1: Sales to Patel Fabrics
+           Invoice: MTT/OCT/001
+           Status: CLEAN — no issues
+           ======================================== -->
+      <TALLYMESSAGE>
+        <VOUCHER VCHTYPE="Sales" ACTION="Create">
+          <DATE>20241001</DATE>
+          <GUID>VCH-001-OCT2024-MEHTA</GUID>
+          <VOUCHERTYPENAME>Sales</VOUCHERTYPENAME>
+          <VOUCHERNUMBER>MTT/OCT/001</VOUCHERNUMBER>
+          <REFERENCE>PO-PAT-2024-089</REFERENCE>
+          <PARTYLEDGERNAME>Patel Fabrics</PARTYLEDGERNAME>
+          <PERSISTEDVIEW>Invoice Voucher View</PERSISTEDVIEW>
+          <ISSERVICE>No</ISSERVICE>
+
+          <!-- Buyer Details (for GST) -->
+          <BUYERNAME>Patel Fabrics Pvt Ltd</BUYERNAME>
+          <BUYERGSTIN>24AAFPG1234D1Z9</BUYERGSTIN>
+          <BUYERADDRESS>12, Textile Hub, Surat</BUYERADDRESS>
+          <PLACEOFDELIVERY>Gujarat</PLACEOFDELIVERY>
+          <SHIPPINGADDRESS>12, Textile Hub, Surat</SHIPPINGADDRESS>
+
+          <!-- Invoice totals -->
+          <INVOICETOTALAMOUNT>134400.00</INVOICETOTALAMOUNT>
+          <TAXABLEAMOUNT>120000.00</TAXABLEAMOUNT>
+
+          <!-- Ledger entries — how Tally records debits/credits -->
+          <ALLLEDGERENTRIES.LIST>
+            <!-- Buyer (Debtor) — Debit -->
+            <LEDGERENTRY>
+              <LEDGERNAME>Patel Fabrics</LEDGERNAME>
+              <ISDEEMEDPOSITIVE>Yes</ISDEEMEDPOSITIVE>
+              <AMOUNT>-134400.00</AMOUNT>
+              <ISPARTYLEDGER>Yes</ISPARTYLEDGER>
+              <BILLALLOCATIONS.LIST>
+                <BILLALLOCATION>
+                  <NAME>MTT/OCT/001</NAME>
+                  <BILLTYPE>New Ref</BILLTYPE>
+                  <AMOUNT>-134400.00</AMOUNT>
+                </BILLALLOCATION>
+              </BILLALLOCATIONS.LIST>
+            </LEDGERENTRY>
+
+            <!-- Sales ledger — Credit -->
+            <LEDGERENTRY>
+              <LEDGERNAME>Sales - Fabric @12%</LEDGERNAME>
+              <ISDEEMEDPOSITIVE>No</ISDEEMEDPOSITIVE>
+              <AMOUNT>120000.00</AMOUNT>
+              <GSTCLASSIFICATION>Taxable</GSTCLASSIFICATION>
+            </LEDGERENTRY>
+
+            <!-- CGST -->
+            <LEDGERENTRY>
+              <LEDGERNAME>CGST @6%</LEDGERNAME>
+              <ISDEEMEDPOSITIVE>No</ISDEEMEDPOSITIVE>
+              <AMOUNT>7200.00</AMOUNT>
+              <TAXTYPE>CGST</TAXTYPE>
+              <TAXRATE>6</TAXRATE>
+            </LEDGERENTRY>
+
+            <!-- SGST (intra-state Gujarat to Gujarat) -->
+            <LEDGERENTRY>
+              <LEDGERNAME>SGST @6%</LEDGERNAME>
+              <ISDEEMEDPOSITIVE>No</ISDEEMEDPOSITIVE>
+              <AMOUNT>7200.00</AMOUNT>
+              <TAXTYPE>SGST</TAXTYPE>
+              <TAXRATE>6</TAXRATE>
+            </LEDGERENTRY>
+          </ALLLEDGERENTRIES.LIST>
+
+          <!-- Inventory details -->
+          <ALLINVENTORYENTRIES.LIST>
+            <INVENTORYENTRY>
+              <STOCKITEMNAME>Synthetic Fabric - Polyester 150cm</STOCKITEMNAME>
+              <ISDEEMEDPOSITIVE>No</ISDEEMEDPOSITIVE>
+              <RATE>48.00/Mtr</RATE>
+              <AMOUNT>120000.00</AMOUNT>
+              <ACTUALQTY>2500 Mtr</ACTUALQTY>
+              <BILLEDQTY>2500 Mtr</BILLEDQTY>
+              <GSTDETAILS.LIST>
+                <GSTDETAIL>
+                  <HSNCODE>5407</HSNCODE>
+                  <GSTRATE>12</GSTRATE>
+                  <TAXABILITYTYPE>Taxable</TAXABILITYTYPE>
+                </GSTDETAIL>
+              </GSTDETAILS.LIST>
+            </INVENTORYENTRY>
+          </ALLINVENTORYENTRIES.LIST>
+        </VOUCHER>
+      </TALLYMESSAGE>
+
+      <!-- ========================================
+           VOUCHER 2: Sales to Sharma Garments
+           Invoice: MTT/OCT/002
+           Status: CLEAN — no issues
+           ======================================== -->
+      <TALLYMESSAGE>
+        <VOUCHER VCHTYPE="Sales" ACTION="Create">
+          <DATE>20241005</DATE>
+          <GUID>VCH-002-OCT2024-MEHTA</GUID>
+          <VOUCHERTYPENAME>Sales</VOUCHERTYPENAME>
+          <VOUCHERNUMBER>MTT/OCT/002</VOUCHERNUMBER>
+          <PARTYLEDGERNAME>Sharma Garments</PARTYLEDGERNAME>
+
+          <BUYERNAME>Sharma Garments LLP</BUYERNAME>
+          <BUYERGSTIN>27AAFSG5678B1Z3</BUYERGSTIN>
+          <BUYERADDRESS>45, Fashion Street, Mumbai</BUYERADDRESS>
+          <PLACEOFDELIVERY>Maharashtra</PLACEOFDELIVERY>
+
+          <!-- Inter-state: Gujarat (24) to Maharashtra (27) → IGST applies -->
+          <INVOICETOTALAMOUNT>95200.00</INVOICETOTALAMOUNT>
+          <TAXABLEAMOUNT>85000.00</TAXABLEAMOUNT>
+
+          <ALLLEDGERENTRIES.LIST>
+            <LEDGERENTRY>
+              <LEDGERNAME>Sharma Garments</LEDGERNAME>
+              <ISDEEMEDPOSITIVE>Yes</ISDEEMEDPOSITIVE>
+              <AMOUNT>-95200.00</AMOUNT>
+              <ISPARTYLEDGER>Yes</ISPARTYLEDGER>
+            </LEDGERENTRY>
+            <LEDGERENTRY>
+              <LEDGERNAME>Sales - Fabric @12%</LEDGERNAME>
+              <ISDEEMEDPOSITIVE>No</ISDEEMEDPOSITIVE>
+              <AMOUNT>85000.00</AMOUNT>
+            </LEDGERENTRY>
+            <!-- IGST for inter-state supply -->
+            <LEDGERENTRY>
+              <LEDGERNAME>IGST @12%</LEDGERNAME>
+              <ISDEEMEDPOSITIVE>No</ISDEEMEDPOSITIVE>
+              <AMOUNT>10200.00</AMOUNT>
+              <TAXTYPE>IGST</TAXTYPE>
+              <TAXRATE>12</TAXRATE>
+            </LEDGERENTRY>
+          </ALLLEDGERENTRIES.LIST>
+
+          <ALLINVENTORYENTRIES.LIST>
+            <INVENTORYENTRY>
+              <STOCKITEMNAME>Cotton Fabric - Poplin 44 inch</STOCKITEMNAME>
+              <RATE>85.00/Mtr</RATE>
+              <AMOUNT>85000.00</AMOUNT>
+              <ACTUALQTY>1000 Mtr</ACTUALQTY>
+              <GSTDETAILS.LIST>
+                <GSTDETAIL>
+                  <HSNCODE>5208</HSNCODE>
+                  <GSTRATE>12</GSTRATE>
+                </GSTDETAIL>
+              </GSTDETAILS.LIST>
+            </INVENTORYENTRY>
+          </ALLINVENTORYENTRIES.LIST>
+        </VOUCHER>
+      </TALLYMESSAGE>
+
+      <!-- ========================================
+           VOUCHER 3: Sales to Gupta Exports
+           Invoice: MTT/OCT/003
+           Status: ⚠️  ISSUE_003 — HSN mismatch
+           Item is Cotton (5208) but entered as 5407 (Synthetic)
+           ======================================== -->
+      <TALLYMESSAGE>
+        <VOUCHER VCHTYPE="Sales" ACTION="Create">
+          <DATE>20241010</DATE>
+          <GUID>VCH-003-OCT2024-MEHTA</GUID>
+          <VOUCHERTYPENAME>Sales</VOUCHERTYPENAME>
+          <VOUCHERNUMBER>MTT/OCT/003</VOUCHERNUMBER>
+          <PARTYLEDGERNAME>Gupta Exports</PARTYLEDGERNAME>
+
+          <BUYERNAME>Gupta Exports International</BUYERNAME>
+          <BUYERGSTIN>24AABGE3456F1Z7</BUYERGSTIN>
+          <BUYERADDRESS>78, Export Zone, Surat</BUYERADDRESS>
+          <PLACEOFDELIVERY>Gujarat</PLACEOFDELIVERY>
+
+          <INVOICETOTALAMOUNT>235200.00</INVOICETOTALAMOUNT>
+          <TAXABLEAMOUNT>210000.00</TAXABLEAMOUNT>
+
+          <ALLLEDGERENTRIES.LIST>
+            <LEDGERENTRY>
+              <LEDGERNAME>Gupta Exports</LEDGERNAME>
+              <ISDEEMEDPOSITIVE>Yes</ISDEEMEDPOSITIVE>
+              <AMOUNT>-235200.00</AMOUNT>
+              <ISPARTYLEDGER>Yes</ISPARTYLEDGER>
+            </LEDGERENTRY>
+            <LEDGERENTRY>
+              <LEDGERNAME>Sales - Fabric @12%</LEDGERNAME>
+              <ISDEEMEDPOSITIVE>No</ISDEEMEDPOSITIVE>
+              <AMOUNT>210000.00</AMOUNT>
+            </LEDGERENTRY>
+            <LEDGERENTRY>
+              <LEDGERNAME>CGST @6%</LEDGERNAME>
+              <ISDEEMEDPOSITIVE>No</ISDEEMEDPOSITIVE>
+              <AMOUNT>12600.00</AMOUNT>
+              <TAXTYPE>CGST</TAXTYPE>
+            </LEDGERENTRY>
+            <LEDGERENTRY>
+              <LEDGERNAME>SGST @6%</LEDGERNAME>
+              <ISDEEMEDPOSITIVE>No</ISDEEMEDPOSITIVE>
+              <AMOUNT>12600.00</AMOUNT>
+              <TAXTYPE>SGST</TAXTYPE>
+            </LEDGERENTRY>
+          </ALLLEDGERENTRIES.LIST>
+
+          <ALLINVENTORYENTRIES.LIST>
+            <INVENTORYENTRY>
+              <!-- ⚠️ DELIBERATE ERROR: Item is Cotton Plain Weave
+                   Correct HSN = 5208 (Cotton woven fabrics)
+                   Entered HSN = 5407 (Synthetic filament yarn fabrics) — WRONG -->
+              <STOCKITEMNAME>Cotton Plain Weave Fabric 60x60</STOCKITEMNAME>
+              <RATE>70.00/Mtr</RATE>
+              <AMOUNT>210000.00</AMOUNT>
+              <ACTUALQTY>3000 Mtr</ACTUALQTY>
+              <GSTDETAILS.LIST>
+                <GSTDETAIL>
+                  <HSNCODE>5407</HSNCODE>
+                  <GSTRATE>12</GSTRATE>
+                </GSTDETAIL>
+              </GSTDETAILS.LIST>
+            </INVENTORYENTRY>
+          </ALLINVENTORYENTRIES.LIST>
+        </VOUCHER>
+      </TALLYMESSAGE>
+
+      <!-- ========================================
+           VOUCHER 4: Sales to Verma Traders
+           Invoice: MTT/OCT/004
+           Status: 🚨 ISSUE_001 — CANCELLED GSTIN
+           Verma's GSTIN was cancelled Oct 2024.
+           Must be reclassified B2B → B2CS in GSTR-1
+           ======================================== -->
+      <TALLYMESSAGE>
+        <VOUCHER VCHTYPE="Sales" ACTION="Create">
+          <DATE>20241015</DATE>
+          <GUID>VCH-004-OCT2024-MEHTA</GUID>
+          <VOUCHERTYPENAME>Sales</VOUCHERTYPENAME>
+          <VOUCHERNUMBER>MTT/OCT/004</VOUCHERNUMBER>
+          <PARTYLEDGERNAME>Verma Traders</PARTYLEDGERNAME>
+
+          <BUYERNAME>Verma Traders</BUYERNAME>
+          <!-- ⚠️ THIS GSTIN IS CANCELLED as of 15-Sep-2024 -->
+          <BUYERGSTIN>24AAFVT9999Z1Z9</BUYERGSTIN>
+          <BUYERADDRESS>22, Market Road, Ahmedabad</BUYERADDRESS>
+          <PLACEOFDELIVERY>Gujarat</PLACEOFDELIVERY>
+
+          <INVOICETOTALAMOUNT>50400.00</INVOICETOTALAMOUNT>
+          <TAXABLEAMOUNT>45000.00</TAXABLEAMOUNT>
+
+          <ALLLEDGERENTRIES.LIST>
+            <LEDGERENTRY>
+              <LEDGERNAME>Verma Traders</LEDGERNAME>
+              <ISDEEMEDPOSITIVE>Yes</ISDEEMEDPOSITIVE>
+              <AMOUNT>-50400.00</AMOUNT>
+              <ISPARTYLEDGER>Yes</ISPARTYLEDGER>
+            </LEDGERENTRY>
+            <LEDGERENTRY>
+              <LEDGERNAME>Sales - Fabric @12%</LEDGERNAME>
+              <ISDEEMEDPOSITIVE>No</ISDEEMEDPOSITIVE>
+              <AMOUNT>45000.00</AMOUNT>
+            </LEDGERENTRY>
+            <LEDGERENTRY>
+              <LEDGERNAME>CGST @6%</LEDGERNAME>
+              <ISDEEMEDPOSITIVE>No</ISDEEMEDPOSITIVE>
+              <AMOUNT>2700.00</AMOUNT>
+              <TAXTYPE>CGST</TAXTYPE>
+            </LEDGERENTRY>
+            <LEDGERENTRY>
+              <LEDGERNAME>SGST @6%</LEDGERNAME>
+              <ISDEEMEDPOSITIVE>No</ISDEEMEDPOSITIVE>
+              <AMOUNT>2700.00</AMOUNT>
+              <TAXTYPE>SGST</TAXTYPE>
+            </LEDGERENTRY>
+          </ALLLEDGERENTRIES.LIST>
+
+          <ALLINVENTORYENTRIES.LIST>
+            <INVENTORYENTRY>
+              <STOCKITEMNAME>Blended Fabric - Cotton-Poly 44 inch</STOCKITEMNAME>
+              <RATE>90.00/Mtr</RATE>
+              <AMOUNT>45000.00</AMOUNT>
+              <ACTUALQTY>500 Mtr</ACTUALQTY>
+              <GSTDETAILS.LIST>
+                <GSTDETAIL>
+                  <HSNCODE>5512</HSNCODE>
+                  <GSTRATE>12</GSTRATE>
+                </GSTDETAIL>
+              </GSTDETAILS.LIST>
+            </INVENTORYENTRY>
+          </ALLINVENTORYENTRIES.LIST>
+        </VOUCHER>
+      </TALLYMESSAGE>
+
+      <!-- ========================================
+           VOUCHER 5: Sales to Jain Textiles
+           Invoice: MTT/OCT/005
+           Status: CLEAN — no issues
+           ======================================== -->
+      <TALLYMESSAGE>
+        <VOUCHER VCHTYPE="Sales" ACTION="Create">
+          <DATE>20241022</DATE>
+          <GUID>VCH-005-OCT2024-MEHTA</GUID>
+          <VOUCHERTYPENAME>Sales</VOUCHERTYPENAME>
+          <VOUCHERNUMBER>MTT/OCT/005</VOUCHERNUMBER>
+          <PARTYLEDGERNAME>Jain Textiles</PARTYLEDGERNAME>
+
+          <BUYERNAME>Jain Textiles Pvt Ltd</BUYERNAME>
+          <BUYERGSTIN>24AABJT7890G1Z1</BUYERGSTIN>
+          <BUYERADDRESS>56, Lal Darwaja, Surat</BUYERADDRESS>
+          <PLACEOFDELIVERY>Gujarat</PLACEOFDELIVERY>
+
+          <INVOICETOTALAMOUNT>106400.00</INVOICETOTALAMOUNT>
+          <TAXABLEAMOUNT>95000.00</TAXABLEAMOUNT>
+
+          <ALLLEDGERENTRIES.LIST>
+            <LEDGERENTRY>
+              <LEDGERNAME>Jain Textiles</LEDGERNAME>
+              <ISDEEMEDPOSITIVE>Yes</ISDEEMEDPOSITIVE>
+              <AMOUNT>-106400.00</AMOUNT>
+              <ISPARTYLEDGER>Yes</ISPARTYLEDGER>
+            </LEDGERENTRY>
+            <LEDGERENTRY>
+              <LEDGERNAME>Sales - Fabric @12%</LEDGERNAME>
+              <ISDEEMEDPOSITIVE>No</ISDEEMEDPOSITIVE>
+              <AMOUNT>95000.00</AMOUNT>
+            </LEDGERENTRY>
+            <LEDGERENTRY>
+              <LEDGERNAME>CGST @6%</LEDGERNAME>
+              <ISDEEMEDPOSITIVE>No</ISDEEMEDPOSITIVE>
+              <AMOUNT>5700.00</AMOUNT>
+              <TAXTYPE>CGST</TAXTYPE>
+            </LEDGERENTRY>
+            <LEDGERENTRY>
+              <LEDGERNAME>SGST @6%</LEDGERNAME>
+              <ISDEEMEDPOSITIVE>No</ISDEEMEDPOSITIVE>
+              <AMOUNT>5700.00</AMOUNT>
+              <TAXTYPE>SGST</TAXTYPE>
+            </LEDGERENTRY>
+          </ALLLEDGERENTRIES.LIST>
+
+          <ALLINVENTORYENTRIES.LIST>
+            <INVENTORYENTRY>
+              <STOCKITEMNAME>Linen Fabric 58 inch Natural</STOCKITEMNAME>
+              <RATE>95.00/Mtr</RATE>
+              <AMOUNT>95000.00</AMOUNT>
+              <ACTUALQTY>1000 Mtr</ACTUALQTY>
+              <GSTDETAILS.LIST>
+                <GSTDETAIL>
+                  <HSNCODE>5309</HSNCODE>
+                  <GSTRATE>12</GSTRATE>
+                </GSTDETAIL>
+              </GSTDETAILS.LIST>
+            </INVENTORYENTRY>
+          </ALLINVENTORYENTRIES.LIST>
+        </VOUCHER>
+      </TALLYMESSAGE>
+
+    </EXPORTDATA>
+  </BODY>
+</ENVELOPE>

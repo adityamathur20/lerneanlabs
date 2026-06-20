@@ -1,0 +1,873 @@
+{
+  "name": "GSTAgent — Monthly GST Reconciliation",
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true
+  },
+  "tags": [
+    {
+      "name": "GST"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "note-setup",
+      "name": "📋 Setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -200,
+        -420
+      ],
+      "parameters": {
+        "content": "## GSTAgent — Monthly Reconciliation\n\nSupabase URL and key are hardcoded in each node.\n\n**Start pipeline server (separate terminal):**\n```\nsource venv/bin/activate\npython3 scripts/pipeline_server.py\n```\n\nPIPELINE_SERVER_URL: http://localhost:5001\nPIPELINE_SECRET: disabled (open dev mode)",
+        "height": 300,
+        "width": 440,
+        "color": 4
+      }
+    },
+    {
+      "id": "note-dryrun",
+      "name": "⚠️ dry_run flag",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1100,
+        -220
+      ],
+      "parameters": {
+        "content": "## Run Pipeline node\n\nCurrently sends `dry_run: true`.\n\nChange to `dry_run: false` once:\n- ANTHROPIC_API_KEY is live\n- Real Tally XML paths are set\n- GSP approval received from MasterGST",
+        "height": 180,
+        "width": 300,
+        "color": 3
+      }
+    },
+    {
+      "id": "schedule-trigger",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -100,
+        0
+      ],
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "months",
+              "triggerAtDayOfMonth": 15,
+              "triggerAtHour": 3,
+              "triggerAtMinute": 30
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "calculate-period",
+      "name": "Calculate Period",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        140,
+        0
+      ],
+      "parameters": {
+        "jsCode": "const now   = new Date();\nconst prev  = new Date(now.getFullYear(), now.getMonth() - 1, 1);\nconst mm    = String(prev.getMonth() + 1).padStart(2, '0');\nconst yyyy  = String(prev.getFullYear());\nconst months = ['','January','February','March','April','May','June','July','August','September','October','November','December'];\nconst curMM   = String(now.getMonth() + 1).padStart(2, '0');\nconst curYYYY = String(now.getFullYear());\nreturn [{ json: {\n  period:       mm + yyyy,\n  period_label: months[parseInt(mm)] + ' ' + yyyy,\n  gstr1_due:    curYYYY + '-' + curMM + '-11',\n  gstr3b_due:   curYYYY + '-' + curMM + '-20'\n}}];"
+      }
+    },
+    {
+      "id": "get-active-clients",
+      "name": "Get Active Clients",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        380,
+        0
+      ],
+      "parameters": {
+        "method": "GET",
+        "url": "https://omtvrpggueqilknhwuam.supabase.co/rest/v1/clients?subscription_status=in.(active,trial)&select=id,gstin,firm_name,owner_name,owner_whatsapp,ca_name,ca_email",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9tdHZycGdndWVxaWxrbmh3dWFtIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NjM2NzA1OCwiZXhwIjoyMDkxOTQzMDU4fQ.4ivd_HEeYYtdLZlOgGE7THRULeQ5xbTNNqMz5gvX9jU"
+            },
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9tdHZycGdndWVxaWxrbmh3dWFtIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NjM2NzA1OCwiZXhwIjoyMDkxOTQzMDU4fQ.4ivd_HEeYYtdLZlOgGE7THRULeQ5xbTNNqMz5gvX9jU"
+            }
+          ]
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "split-clients",
+      "name": "Split Clients",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        620,
+        0
+      ],
+      "parameters": {
+        "batchSize": 1,
+        "options": {}
+      }
+    },
+    {
+      "id": "check-gsp-session",
+      "name": "Check GSP Session",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        620,
+        200
+      ],
+      "continueOnFail": true,
+      "parameters": {
+        "method": "POST",
+        "url": "https://omtvrpggueqilknhwuam.supabase.co/rest/v1/rpc/gsp_session_status",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9tdHZycGdndWVxaWxrbmh3dWFtIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NjM2NzA1OCwiZXhwIjoyMDkxOTQzMDU4fQ.4ivd_HEeYYtdLZlOgGE7THRULeQ5xbTNNqMz5gvX9jU"
+            },
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9tdHZycGdndWVxaWxrbmh3dWFtIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NjM2NzA1OCwiZXhwIjoyMDkxOTQzMDU4fQ.4ivd_HEeYYtdLZlOgGE7THRULeQ5xbTNNqMz5gvX9jU"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "json",
+        "body": "={{ JSON.stringify({ p_client_id: $json.id }) }}",
+        "options": {}
+      }
+    },
+    {
+      "id": "if-session-valid",
+      "name": "IF Session Valid",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        860,
+        200
+      ],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": false,
+            "leftValue": "",
+            "typeValidation": "loose"
+          },
+          "conditions": [
+            {
+              "leftValue": "={{ Array.isArray($json) ? $json[0]?.is_valid : $json?.is_valid }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        }
+      }
+    },
+    {
+      "id": "log-no-session",
+      "name": "Log – No GSP Session",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        860,
+        420
+      ],
+      "continueOnFail": true,
+      "parameters": {
+        "method": "POST",
+        "url": "https://omtvrpggueqilknhwuam.supabase.co/rest/v1/filing_runs",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9tdHZycGdndWVxaWxrbmh3dWFtIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NjM2NzA1OCwiZXhwIjoyMDkxOTQzMDU4fQ.4ivd_HEeYYtdLZlOgGE7THRULeQ5xbTNNqMz5gvX9jU"
+            },
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9tdHZycGdndWVxaWxrbmh3dWFtIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NjM2NzA1OCwiZXhwIjoyMDkxOTQzMDU4fQ.4ivd_HEeYYtdLZlOgGE7THRULeQ5xbTNNqMz5gvX9jU"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "Prefer",
+              "value": "return=minimal"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "json",
+        "options": {},
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({\n  client_id:       $json.id,\n  period:          $('Calculate Period').first().json.period,\n  period_label:    $('Calculate Period').first().json.period_label,\n  gstr1_due_date:  $('Calculate Period').first().json.gstr1_due,\n  gstr3b_due_date: $('Calculate Period').first().json.gstr3b_due,\n  run_status:      'failed',\n  error_message:   'No valid GSP session. OTP refresh required.',\n  started_at:      new Date().toISOString(),\n  completed_at:    new Date().toISOString()\n}) }}"
+      }
+    },
+    {
+      "id": "create-filing-run",
+      "name": "Create Filing Run",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1100,
+        100
+      ],
+      "continueOnFail": true,
+      "parameters": {
+        "method": "POST",
+        "url": "https://omtvrpggueqilknhwuam.supabase.co/rest/v1/filing_runs",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9tdHZycGdndWVxaWxrbmh3dWFtIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NjM2NzA1OCwiZXhwIjoyMDkxOTQzMDU4fQ.4ivd_HEeYYtdLZlOgGE7THRULeQ5xbTNNqMz5gvX9jU"
+            },
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9tdHZycGdndWVxaWxrbmh3dWFtIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NjM2NzA1OCwiZXhwIjoyMDkxOTQzMDU4fQ.4ivd_HEeYYtdLZlOgGE7THRULeQ5xbTNNqMz5gvX9jU"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "Prefer",
+              "value": "resolution=merge-duplicates,return=representation"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "json",
+        "options": {},
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({\n  client_id:       $json.id,\n  period:          $('Calculate Period').first().json.period,\n  period_label:    $('Calculate Period').first().json.period_label,\n  gstr1_due_date:  $('Calculate Period').first().json.gstr1_due,\n  gstr3b_due_date: $('Calculate Period').first().json.gstr3b_due,\n  run_status:      'running',\n  started_at:      new Date().toISOString()\n}) }}"
+      }
+    },
+    {
+      "id": "run-pipeline",
+      "name": "Run Pipeline",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1340,
+        100
+      ],
+      "continueOnFail": true,
+      "parameters": {
+        "method": "POST",
+        "url": "http://127.0.0.1:5001/run",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "json",
+        "options": {
+          "timeout": 120000
+        },
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({\n  gstin:    $('Split Clients').item.json.gstin,\n  period:   $('Calculate Period').first().json.period,\n  dry_run:  true\n}) }}"
+      }
+    },
+    {
+      "id": "if-pipeline-success",
+      "name": "IF Pipeline Success",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        1580,
+        100
+      ],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": false,
+            "leftValue": "",
+            "typeValidation": "loose"
+          },
+          "conditions": [
+            {
+              "leftValue": "={{ $json.success }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        }
+      }
+    },
+    {
+      "id": "attach-run-id",
+      "name": "Attach Filing Run ID",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1820,
+        0
+      ],
+      "parameters": {
+        "jsCode": "const pipelineResult = $input.all()[0].json;\nconst runId = $('Create Filing Run').all()[0].json.id;\nreturn [{ json: { ...pipelineResult, filing_run_id: runId } }];"
+      }
+    },
+    {
+      "id": "save-result",
+      "name": "Save Reconciliation Result",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        2060,
+        0
+      ],
+      "continueOnFail": true,
+      "parameters": {
+        "method": "POST",
+        "url": "https://omtvrpggueqilknhwuam.supabase.co/rest/v1/reconciliation_results",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9tdHZycGdndWVxaWxrbmh3dWFtIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NjM2NzA1OCwiZXhwIjoyMDkxOTQzMDU4fQ.4ivd_HEeYYtdLZlOgGE7THRULeQ5xbTNNqMz5gvX9jU"
+            },
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9tdHZycGdndWVxaWxrbmh3dWFtIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NjM2NzA1OCwiZXhwIjoyMDkxOTQzMDU4fQ.4ivd_HEeYYtdLZlOgGE7THRULeQ5xbTNNqMz5gvX9jU"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "Prefer",
+              "value": "return=minimal"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "json",
+        "options": {},
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({\n  filing_run_id:     $json.filing_run_id,\n  result_json:       { status: $json.reconciliation_status, issue_count: $json.issue_count, net_payable_inr: $json.net_payable_inr },\n  whatsapp_message:  $json.whatsapp_message,\n  ca_report:         $json.ca_report,\n  issues_structured: $json.issues_structured,\n  model_whatsapp:    $json.model_whatsapp,\n  model_ca_report:   $json.model_ca_report,\n  fallback_used:     $json.fallback_used\n}) }}"
+      }
+    },
+    {
+      "id": "update-run-complete",
+      "name": "Update Run – Complete",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        2300,
+        0
+      ],
+      "continueOnFail": true,
+      "parameters": {
+        "method": "PATCH",
+        "url": "={{ 'https://omtvrpggueqilknhwuam.supabase.co/rest/v1/filing_runs?id=eq.' + $('Attach Filing Run ID').first().json.filing_run_id }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9tdHZycGdndWVxaWxrbmh3dWFtIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NjM2NzA1OCwiZXhwIjoyMDkxOTQzMDU4fQ.4ivd_HEeYYtdLZlOgGE7THRULeQ5xbTNNqMz5gvX9jU"
+            },
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9tdHZycGdndWVxaWxrbmh3dWFtIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NjM2NzA1OCwiZXhwIjoyMDkxOTQzMDU4fQ.4ivd_HEeYYtdLZlOgGE7THRULeQ5xbTNNqMz5gvX9jU"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "Prefer",
+              "value": "return=minimal"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "json",
+        "options": {},
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({\n  run_status:            'completed',\n  reconciliation_status: $('Attach Filing Run ID').first().json.reconciliation_status,\n  issue_count:           $('Attach Filing Run ID').first().json.issue_count,\n  net_payable_inr:       $('Attach Filing Run ID').first().json.net_payable_inr,\n  cost_usd:              $('Attach Filing Run ID').first().json.cost_usd,\n  cost_inr:              $('Attach Filing Run ID').first().json.cost_inr,\n  completed_at:          new Date().toISOString()\n}) }}"
+      }
+    },
+    {
+      "id": "update-run-failed",
+      "name": "Update Run – Failed",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1820,
+        240
+      ],
+      "continueOnFail": true,
+      "parameters": {
+        "method": "PATCH",
+        "url": "={{ 'https://omtvrpggueqilknhwuam.supabase.co/rest/v1/filing_runs?id=eq.' + $('Create Filing Run').first().json.id }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9tdHZycGdndWVxaWxrbmh3dWFtIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NjM2NzA1OCwiZXhwIjoyMDkxOTQzMDU4fQ.4ivd_HEeYYtdLZlOgGE7THRULeQ5xbTNNqMz5gvX9jU"
+            },
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9tdHZycGdndWVxaWxrbmh3dWFtIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NjM2NzA1OCwiZXhwIjoyMDkxOTQzMDU4fQ.4ivd_HEeYYtdLZlOgGE7THRULeQ5xbTNNqMz5gvX9jU"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "Prefer",
+              "value": "return=minimal"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "json",
+        "options": {},
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({\n  run_status:    'failed',\n  error_message: $json.error || 'Pipeline returned success=false',\n  completed_at:  new Date().toISOString()\n}) }}"
+      }
+    },
+    {
+      "id": "if-has-whatsapp",
+      "name": "IF Has WhatsApp",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        2540,
+        0
+      ],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": false,
+            "leftValue": "",
+            "typeValidation": "loose"
+          },
+          "conditions": [
+            {
+              "leftValue": "={{ $('Attach Filing Run ID').first().json.whatsapp_number }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty"
+              }
+            }
+          ],
+          "combinator": "and"
+        }
+      }
+    },
+    {
+      "id": "send-whatsapp",
+      "name": "Send WhatsApp Alert",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        2780,
+        -100
+      ],
+      "continueOnFail": true,
+      "parameters": {
+        "method": "POST",
+        "url": "https://graph.facebook.com/v19.0/PLACEHOLDER_PHONE_ID/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer PLACEHOLDER_META_TOKEN"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "json",
+        "options": {},
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({\n  messaging_product: 'whatsapp',\n  recipient_type:    'individual',\n  to:                $('Attach Filing Run ID').first().json.whatsapp_number,\n  type:              'text',\n  text: { preview_url: false, body: $('Attach Filing Run ID').first().json.whatsapp_message }\n}) }}"
+      }
+    },
+    {
+      "id": "log-whatsapp",
+      "name": "Log WhatsApp Sent",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        3020,
+        -100
+      ],
+      "continueOnFail": true,
+      "parameters": {
+        "method": "POST",
+        "url": "https://omtvrpggueqilknhwuam.supabase.co/rest/v1/alerts_sent",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9tdHZycGdndWVxaWxrbmh3dWFtIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NjM2NzA1OCwiZXhwIjoyMDkxOTQzMDU4fQ.4ivd_HEeYYtdLZlOgGE7THRULeQ5xbTNNqMz5gvX9jU"
+            },
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9tdHZycGdndWVxaWxrbmh3dWFtIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NjM2NzA1OCwiZXhwIjoyMDkxOTQzMDU4fQ.4ivd_HEeYYtdLZlOgGE7THRULeQ5xbTNNqMz5gvX9jU"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "Prefer",
+              "value": "return=minimal"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "json",
+        "options": {},
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({\n  filing_run_id: $('Attach Filing Run ID').first().json.filing_run_id,\n  alert_type:    'whatsapp',\n  recipient:     $('Attach Filing Run ID').first().json.whatsapp_number,\n  status:        'failed',\n  provider:      'meta_cloud_api',\n  sent_at:       new Date().toISOString()\n}) }}"
+      }
+    },
+    {
+      "id": "send-ca-email",
+      "name": "Send CA Email",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        3020,
+        100
+      ],
+      "continueOnFail": true,
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.sendgrid.com/v3/mail/send",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer PLACEHOLDER_SENDGRID_KEY"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "json",
+        "options": {},
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({\n  personalizations: [{ to: [{ email: $('Attach Filing Run ID').first().json.ca_email }] }],\n  from: { email: 'gst@yourdomain.com', name: 'GST Agent' },\n  subject: 'GST Filing Report — ' + $('Attach Filing Run ID').first().json.firm_name + ' | ' + $('Calculate Period').first().json.period_label,\n  content: [{ type: 'text/plain', value: $('Attach Filing Run ID').first().json.ca_report }]\n}) }}"
+      }
+    },
+    {
+      "id": "log-email",
+      "name": "Log Email Sent",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        3260,
+        100
+      ],
+      "continueOnFail": true,
+      "parameters": {
+        "method": "POST",
+        "url": "https://omtvrpggueqilknhwuam.supabase.co/rest/v1/alerts_sent",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9tdHZycGdndWVxaWxrbmh3dWFtIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NjM2NzA1OCwiZXhwIjoyMDkxOTQzMDU4fQ.4ivd_HEeYYtdLZlOgGE7THRULeQ5xbTNNqMz5gvX9jU"
+            },
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9tdHZycGdndWVxaWxrbmh3dWFtIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NjM2NzA1OCwiZXhwIjoyMDkxOTQzMDU4fQ.4ivd_HEeYYtdLZlOgGE7THRULeQ5xbTNNqMz5gvX9jU"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "Prefer",
+              "value": "return=minimal"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "json",
+        "options": {},
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({\n  filing_run_id: $('Attach Filing Run ID').first().json.filing_run_id,\n  alert_type:    'email_ca',\n  recipient:     $('Attach Filing Run ID').first().json.ca_email,\n  status:        'failed',\n  provider:      'sendgrid',\n  sent_at:       new Date().toISOString()\n}) }}"
+      }
+    },
+    {
+      "id": "next-client",
+      "name": "Next Client",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        3500,
+        0
+      ],
+      "parameters": {}
+    }
+  ],
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Calculate Period",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calculate Period": {
+      "main": [
+        [
+          {
+            "node": "Get Active Clients",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Active Clients": {
+      "main": [
+        [
+          {
+            "node": "Split Clients",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Clients": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Create Filing Run",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Filing Run": {
+      "main": [
+        [
+          {
+            "node": "Run Pipeline",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Run Pipeline": {
+      "main": [
+        [
+          {
+            "node": "IF Pipeline Success",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF Pipeline Success": {
+      "main": [
+        [
+          {
+            "node": "Attach Filing Run ID",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Update Run – Failed",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Attach Filing Run ID": {
+      "main": [
+        [
+          {
+            "node": "Save Reconciliation Result",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save Reconciliation Result": {
+      "main": [
+        [
+          {
+            "node": "Update Run – Complete",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Run – Complete": {
+      "main": [
+        [
+          {
+            "node": "IF Has WhatsApp",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF Has WhatsApp": {
+      "main": [
+        [
+          {
+            "node": "Send WhatsApp Alert",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send CA Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send WhatsApp Alert": {
+      "main": [
+        [
+          {
+            "node": "Log WhatsApp Sent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Log WhatsApp Sent": {
+      "main": [
+        [
+          {
+            "node": "Send CA Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send CA Email": {
+      "main": [
+        [
+          {
+            "node": "Log Email Sent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Log Email Sent": {
+      "main": [
+        [
+          {
+            "node": "Next Client",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Run – Failed": {
+      "main": [
+        [
+          {
+            "node": "Next Client",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Log – No GSP Session": {
+      "main": [
+        [
+          {
+            "node": "Next Client",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Next Client": {
+      "main": [
+        [
+          {
+            "node": "Split Clients",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

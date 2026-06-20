@@ -1,0 +1,385 @@
+2026-04-19 14:25:58,283  INFO  [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://192.168.1.15:5001
+2026-04-19 14:25:58,283  INFO  [33mPress CTRL+C to quit[0m
+2026-04-19 14:51:57,536  INFO  RUN START  gstin=  period=  dry_run=False
+2026-04-19 14:51:57,539  ERROR  RUN FAILED — gstin and period are required
+2026-04-19 14:51:57,543  INFO  127.0.0.1 - - [19/Apr/2026 14:51:57] "[31m[1mPOST /run HTTP/1.1[0m" 400 -
+2026-04-19 14:51:57,806  INFO  RUN START  gstin=  period=  dry_run=False
+2026-04-19 14:51:57,806  ERROR  RUN FAILED — gstin and period are required
+2026-04-19 14:51:57,813  INFO  127.0.0.1 - - [19/Apr/2026 14:51:57] "[31m[1mPOST /run HTTP/1.1[0m" 400 -
+2026-04-19 14:51:57,984  INFO  RUN START  gstin=  period=  dry_run=False
+2026-04-19 14:51:57,984  ERROR  RUN FAILED — gstin and period are required
+2026-04-19 14:51:57,985  INFO  127.0.0.1 - - [19/Apr/2026 14:51:57] "[31m[1mPOST /run HTTP/1.1[0m" 400 -
+2026-04-19 14:51:58,155  INFO  RUN START  gstin=  period=  dry_run=False
+2026-04-19 14:51:58,163  ERROR  RUN FAILED — gstin and period are required
+2026-04-19 14:51:58,164  INFO  127.0.0.1 - - [19/Apr/2026 14:51:58] "[31m[1mPOST /run HTTP/1.1[0m" 400 -
+2026-04-19 14:51:58,411  INFO  RUN START  gstin=  period=  dry_run=False
+2026-04-19 14:51:58,412  ERROR  RUN FAILED — gstin and period are required
+2026-04-19 14:51:58,412  INFO  127.0.0.1 - - [19/Apr/2026 14:51:58] "[31m[1mPOST /run HTTP/1.1[0m" 400 -
+2026-04-19 14:51:58,582  INFO  RUN START  gstin=  period=  dry_run=False
+2026-04-19 14:51:58,582  ERROR  RUN FAILED — gstin and period are required
+2026-04-19 14:51:58,583  INFO  127.0.0.1 - - [19/Apr/2026 14:51:58] "[31m[1mPOST /run HTTP/1.1[0m" 400 -
+2026-04-19 14:51:58,836  INFO  RUN START  gstin=  period=  dry_run=False
+2026-04-19 14:51:58,836  ERROR  RUN FAILED — gstin and period are required
+2026-04-19 14:51:58,836  INFO  127.0.0.1 - - [19/Apr/2026 14:51:58] "[31m[1mPOST /run HTTP/1.1[0m" 400 -
+2026-04-19 14:51:59,017  INFO  RUN START  gstin=  period=  dry_run=False
+2026-04-19 14:51:59,017  ERROR  RUN FAILED — gstin and period are required
+2026-04-19 14:51:59,018  INFO  127.0.0.1 - - [19/Apr/2026 14:51:59] "[31m[1mPOST /run HTTP/1.1[0m" 400 -
+2026-04-19 14:51:59,179  INFO  RUN START  gstin=  period=  dry_run=False
+2026-04-19 14:51:59,180  ERROR  RUN FAILED — gstin and period are required
+2026-04-19 14:51:59,180  INFO  127.0.0.1 - - [19/Apr/2026 14:51:59] "[31m[1mPOST /run HTTP/1.1[0m" 400 -
+2026-04-19 14:51:59,485  INFO  RUN START  gstin=  period=  dry_run=False
+2026-04-19 14:51:59,485  ERROR  RUN FAILED — gstin and period are required
+2026-04-19 14:51:59,486  INFO  127.0.0.1 - - [19/Apr/2026 14:51:59] "[31m[1mPOST /run HTTP/1.1[0m" 400 -
+2026-04-19 15:16:56,418  INFO  RUN START  gstin=  period=  dry_run=False
+2026-04-19 15:16:56,423  ERROR  RUN FAILED — gstin and period are required
+2026-04-19 15:16:56,431  INFO  127.0.0.1 - - [19/Apr/2026 15:16:56] "[31m[1mPOST /run HTTP/1.1[0m" 400 -
+2026-04-19 15:16:56,727  INFO  RUN START  gstin=  period=  dry_run=False
+2026-04-19 15:16:56,727  ERROR  RUN FAILED — gstin and period are required
+2026-04-19 15:16:56,727  INFO  127.0.0.1 - - [19/Apr/2026 15:16:56] "[31m[1mPOST /run HTTP/1.1[0m" 400 -
+2026-04-19 15:16:56,902  INFO  RUN START  gstin=  period=  dry_run=False
+2026-04-19 15:16:56,902  ERROR  RUN FAILED — gstin and period are required
+2026-04-19 15:16:56,903  INFO  127.0.0.1 - - [19/Apr/2026 15:16:56] "[31m[1mPOST /run HTTP/1.1[0m" 400 -
+2026-04-19 15:16:57,091  INFO  RUN START  gstin=  period=  dry_run=False
+2026-04-19 15:16:57,091  ERROR  RUN FAILED — gstin and period are required
+2026-04-19 15:16:57,091  INFO  127.0.0.1 - - [19/Apr/2026 15:16:57] "[31m[1mPOST /run HTTP/1.1[0m" 400 -
+2026-04-19 15:16:57,336  INFO  RUN START  gstin=  period=  dry_run=False
+2026-04-19 15:16:57,336  ERROR  RUN FAILED — gstin and period are required
+2026-04-19 15:16:57,337  INFO  127.0.0.1 - - [19/Apr/2026 15:16:57] "[31m[1mPOST /run HTTP/1.1[0m" 400 -
+2026-04-19 15:16:57,523  INFO  RUN START  gstin=  period=  dry_run=False
+2026-04-19 15:16:57,524  ERROR  RUN FAILED — gstin and period are required
+2026-04-19 15:16:57,524  INFO  127.0.0.1 - - [19/Apr/2026 15:16:57] "[31m[1mPOST /run HTTP/1.1[0m" 400 -
+2026-04-19 15:16:57,781  INFO  RUN START  gstin=  period=  dry_run=False
+2026-04-19 15:16:57,781  ERROR  RUN FAILED — gstin and period are required
+2026-04-19 15:16:57,782  INFO  127.0.0.1 - - [19/Apr/2026 15:16:57] "[31m[1mPOST /run HTTP/1.1[0m" 400 -
+2026-04-19 15:16:57,957  INFO  RUN START  gstin=  period=  dry_run=False
+2026-04-19 15:16:57,957  ERROR  RUN FAILED — gstin and period are required
+2026-04-19 15:16:57,957  INFO  127.0.0.1 - - [19/Apr/2026 15:16:57] "[31m[1mPOST /run HTTP/1.1[0m" 400 -
+2026-04-19 15:16:58,141  INFO  RUN START  gstin=  period=  dry_run=False
+2026-04-19 15:16:58,141  ERROR  RUN FAILED — gstin and period are required
+2026-04-19 15:16:58,142  INFO  127.0.0.1 - - [19/Apr/2026 15:16:58] "[31m[1mPOST /run HTTP/1.1[0m" 400 -
+2026-04-19 15:16:58,392  INFO  RUN START  gstin=  period=  dry_run=False
+2026-04-19 15:16:58,392  ERROR  RUN FAILED — gstin and period are required
+2026-04-19 15:16:58,393  INFO  127.0.0.1 - - [19/Apr/2026 15:16:58] "[31m[1mPOST /run HTTP/1.1[0m" 400 -
+2026-04-19 15:17:45,738  INFO  [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://192.168.1.15:5001
+2026-04-19 15:17:45,739  INFO  [33mPress CTRL+C to quit[0m
+2026-04-19 15:18:38,625  INFO  RUN START  gstin=  period=  dry_run=False
+2026-04-19 15:18:38,626  ERROR  RUN FAILED — gstin and period are required
+2026-04-19 15:18:38,627  INFO  127.0.0.1 - - [19/Apr/2026 15:18:38] "[31m[1mPOST /run HTTP/1.1[0m" 400 -
+2026-04-19 15:18:38,821  INFO  RUN START  gstin=  period=  dry_run=False
+2026-04-19 15:18:38,821  ERROR  RUN FAILED — gstin and period are required
+2026-04-19 15:18:38,822  INFO  127.0.0.1 - - [19/Apr/2026 15:18:38] "[31m[1mPOST /run HTTP/1.1[0m" 400 -
+2026-04-19 15:18:39,053  INFO  RUN START  gstin=  period=  dry_run=False
+2026-04-19 15:18:39,053  ERROR  RUN FAILED — gstin and period are required
+2026-04-19 15:18:39,053  INFO  127.0.0.1 - - [19/Apr/2026 15:18:39] "[31m[1mPOST /run HTTP/1.1[0m" 400 -
+2026-04-19 15:18:39,244  INFO  RUN START  gstin=  period=  dry_run=False
+2026-04-19 15:18:39,244  ERROR  RUN FAILED — gstin and period are required
+2026-04-19 15:18:39,244  INFO  127.0.0.1 - - [19/Apr/2026 15:18:39] "[31m[1mPOST /run HTTP/1.1[0m" 400 -
+2026-04-19 15:18:39,491  INFO  RUN START  gstin=  period=  dry_run=False
+2026-04-19 15:18:39,491  ERROR  RUN FAILED — gstin and period are required
+2026-04-19 15:18:39,491  INFO  127.0.0.1 - - [19/Apr/2026 15:18:39] "[31m[1mPOST /run HTTP/1.1[0m" 400 -
+2026-04-19 15:18:39,658  INFO  RUN START  gstin=  period=  dry_run=False
+2026-04-19 15:18:39,659  ERROR  RUN FAILED — gstin and period are required
+2026-04-19 15:18:39,659  INFO  127.0.0.1 - - [19/Apr/2026 15:18:39] "[31m[1mPOST /run HTTP/1.1[0m" 400 -
+2026-04-19 15:18:39,825  INFO  RUN START  gstin=  period=  dry_run=False
+2026-04-19 15:18:39,826  ERROR  RUN FAILED — gstin and period are required
+2026-04-19 15:18:39,826  INFO  127.0.0.1 - - [19/Apr/2026 15:18:39] "[31m[1mPOST /run HTTP/1.1[0m" 400 -
+2026-04-19 15:18:40,097  INFO  RUN START  gstin=  period=  dry_run=False
+2026-04-19 15:18:40,097  ERROR  RUN FAILED — gstin and period are required
+2026-04-19 15:18:40,098  INFO  127.0.0.1 - - [19/Apr/2026 15:18:40] "[31m[1mPOST /run HTTP/1.1[0m" 400 -
+2026-04-19 15:18:40,276  INFO  RUN START  gstin=  period=  dry_run=False
+2026-04-19 15:18:40,276  ERROR  RUN FAILED — gstin and period are required
+2026-04-19 15:18:40,276  INFO  127.0.0.1 - - [19/Apr/2026 15:18:40] "[31m[1mPOST /run HTTP/1.1[0m" 400 -
+2026-04-19 15:18:40,448  INFO  RUN START  gstin=  period=  dry_run=False
+2026-04-19 15:18:40,448  ERROR  RUN FAILED — gstin and period are required
+2026-04-19 15:18:40,449  INFO  127.0.0.1 - - [19/Apr/2026 15:18:40] "[31m[1mPOST /run HTTP/1.1[0m" 400 -
+2026-04-19 15:33:42,348  INFO  [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://192.168.1.15:5001
+2026-04-19 15:33:42,349  INFO  [33mPress CTRL+C to quit[0m
+2026-04-19 15:34:31,785  INFO  RUN START  gstin=24AABMT1234C1Z5  period=032026  dry_run=True
+2026-04-19 15:34:32,180  INFO  RUN OK     gstin=24AABMT1234C1Z5  status=ISSUES_FOUND  issues=2  cost_usd=0.0
+2026-04-19 15:34:32,182  INFO  127.0.0.1 - - [19/Apr/2026 15:34:32] "POST /run HTTP/1.1" 200 -
+2026-04-19 15:34:34,710  INFO  RUN START  gstin=27AABCP1234D1Z3  period=032026  dry_run=True
+2026-04-19 15:34:34,858  INFO  RUN OK     gstin=27AABCP1234D1Z3  status=ISSUES_FOUND  issues=2  cost_usd=0.0
+2026-04-19 15:34:34,861  INFO  127.0.0.1 - - [19/Apr/2026 15:34:34] "POST /run HTTP/1.1" 200 -
+2026-04-19 15:34:37,184  INFO  RUN START  gstin=27AABCS5678E1Z1  period=032026  dry_run=True
+2026-04-19 15:34:37,304  INFO  RUN OK     gstin=27AABCS5678E1Z1  status=ISSUES_FOUND  issues=1  cost_usd=0.0
+2026-04-19 15:34:37,306  INFO  127.0.0.1 - - [19/Apr/2026 15:34:37] "POST /run HTTP/1.1" 200 -
+2026-04-19 15:34:38,975  INFO  RUN START  gstin=24AABCP9012F1Z5  period=032026  dry_run=True
+2026-04-19 15:34:39,079  INFO  RUN OK     gstin=24AABCP9012F1Z5  status=ISSUES_FOUND  issues=1  cost_usd=0.0
+2026-04-19 15:34:39,080  INFO  127.0.0.1 - - [19/Apr/2026 15:34:39] "POST /run HTTP/1.1" 200 -
+2026-04-19 15:34:40,236  INFO  RUN START  gstin=24AABCA3456G1Z2  period=032026  dry_run=True
+2026-04-19 15:34:40,312  INFO  RUN OK     gstin=24AABCA3456G1Z2  status=ISSUES_FOUND  issues=2  cost_usd=0.0
+2026-04-19 15:34:40,312  INFO  127.0.0.1 - - [19/Apr/2026 15:34:40] "POST /run HTTP/1.1" 200 -
+2026-04-19 15:34:41,722  INFO  RUN START  gstin=29AABCE7890H1Z4  period=032026  dry_run=True
+2026-04-19 15:34:41,821  INFO  RUN OK     gstin=29AABCE7890H1Z4  status=ISSUES_FOUND  issues=1  cost_usd=0.0
+2026-04-19 15:34:41,822  INFO  127.0.0.1 - - [19/Apr/2026 15:34:41] "POST /run HTTP/1.1" 200 -
+2026-04-19 15:34:43,165  INFO  RUN START  gstin=29AABCI1234J1Z6  period=032026  dry_run=True
+2026-04-19 15:34:43,255  INFO  RUN OK     gstin=29AABCI1234J1Z6  status=ISSUES_FOUND  issues=2  cost_usd=0.0
+2026-04-19 15:34:43,256  INFO  127.0.0.1 - - [19/Apr/2026 15:34:43] "POST /run HTTP/1.1" 200 -
+2026-04-19 15:34:44,367  INFO  RUN START  gstin=06AABCF5678K1Z3  period=032026  dry_run=True
+2026-04-19 15:34:44,446  INFO  RUN OK     gstin=06AABCF5678K1Z3  status=ISSUES_FOUND  issues=1  cost_usd=0.0
+2026-04-19 15:34:44,447  INFO  127.0.0.1 - - [19/Apr/2026 15:34:44] "POST /run HTTP/1.1" 200 -
+2026-04-19 15:34:45,785  INFO  RUN START  gstin=06AABCA9012L1Z1  period=032026  dry_run=True
+2026-04-19 15:34:45,868  INFO  RUN OK     gstin=06AABCA9012L1Z1  status=ISSUES_FOUND  issues=1  cost_usd=0.0
+2026-04-19 15:34:45,869  INFO  127.0.0.1 - - [19/Apr/2026 15:34:45] "POST /run HTTP/1.1" 200 -
+2026-04-19 15:34:47,098  INFO  RUN START  gstin=33AABCA3456M1Z8  period=032026  dry_run=True
+2026-04-19 15:34:47,196  INFO  RUN OK     gstin=33AABCA3456M1Z8  status=ISSUES_FOUND  issues=2  cost_usd=0.0
+2026-04-19 15:34:47,197  INFO  127.0.0.1 - - [19/Apr/2026 15:34:47] "POST /run HTTP/1.1" 200 -
+2026-04-19 16:18:36,337  INFO  [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://192.168.1.15:5001
+2026-04-19 16:18:36,337  INFO  [33mPress CTRL+C to quit[0m
+2026-04-19 16:19:27,985  INFO  RUN START  gstin=24AABMT1234C1Z5  period=032026  dry_run=True
+2026-04-19 16:19:28,403  INFO  RUN OK     gstin=24AABMT1234C1Z5  status=ISSUES_FOUND  issues=2  cost_usd=0.0
+2026-04-19 16:19:28,404  INFO  127.0.0.1 - - [19/Apr/2026 16:19:28] "POST /run HTTP/1.1" 200 -
+2026-04-19 16:19:30,498  INFO  RUN START  gstin=27AABCP1234D1Z3  period=032026  dry_run=True
+2026-04-19 16:19:30,604  INFO  RUN OK     gstin=27AABCP1234D1Z3  status=ISSUES_FOUND  issues=2  cost_usd=0.0
+2026-04-19 16:19:30,605  INFO  127.0.0.1 - - [19/Apr/2026 16:19:30] "POST /run HTTP/1.1" 200 -
+2026-04-19 16:19:32,131  INFO  RUN START  gstin=27AABCS5678E1Z1  period=032026  dry_run=True
+2026-04-19 16:19:32,224  INFO  RUN OK     gstin=27AABCS5678E1Z1  status=ISSUES_FOUND  issues=1  cost_usd=0.0
+2026-04-19 16:19:32,225  INFO  127.0.0.1 - - [19/Apr/2026 16:19:32] "POST /run HTTP/1.1" 200 -
+2026-04-19 16:19:33,581  INFO  RUN START  gstin=24AABCP9012F1Z5  period=032026  dry_run=True
+2026-04-19 16:19:33,683  INFO  RUN OK     gstin=24AABCP9012F1Z5  status=ISSUES_FOUND  issues=1  cost_usd=0.0
+2026-04-19 16:19:33,683  INFO  127.0.0.1 - - [19/Apr/2026 16:19:33] "POST /run HTTP/1.1" 200 -
+2026-04-19 16:19:35,137  INFO  RUN START  gstin=24AABCA3456G1Z2  period=032026  dry_run=True
+2026-04-19 16:19:35,225  INFO  RUN OK     gstin=24AABCA3456G1Z2  status=ISSUES_FOUND  issues=2  cost_usd=0.0
+2026-04-19 16:19:35,226  INFO  127.0.0.1 - - [19/Apr/2026 16:19:35] "POST /run HTTP/1.1" 200 -
+2026-04-19 16:19:36,714  INFO  RUN START  gstin=29AABCE7890H1Z4  period=032026  dry_run=True
+2026-04-19 16:19:36,810  INFO  RUN OK     gstin=29AABCE7890H1Z4  status=ISSUES_FOUND  issues=1  cost_usd=0.0
+2026-04-19 16:19:36,810  INFO  127.0.0.1 - - [19/Apr/2026 16:19:36] "POST /run HTTP/1.1" 200 -
+2026-04-19 16:19:38,359  INFO  RUN START  gstin=29AABCI1234J1Z6  period=032026  dry_run=True
+2026-04-19 16:19:38,460  INFO  RUN OK     gstin=29AABCI1234J1Z6  status=ISSUES_FOUND  issues=7  cost_usd=0.0
+2026-04-19 16:19:38,461  INFO  127.0.0.1 - - [19/Apr/2026 16:19:38] "POST /run HTTP/1.1" 200 -
+2026-04-19 16:19:39,874  INFO  RUN START  gstin=06AABCF5678K1Z3  period=032026  dry_run=True
+2026-04-19 16:19:39,972  INFO  RUN OK     gstin=06AABCF5678K1Z3  status=ISSUES_FOUND  issues=1  cost_usd=0.0
+2026-04-19 16:19:39,972  INFO  127.0.0.1 - - [19/Apr/2026 16:19:39] "POST /run HTTP/1.1" 200 -
+2026-04-19 16:19:41,433  INFO  RUN START  gstin=06AABCA9012L1Z1  period=032026  dry_run=True
+2026-04-19 16:19:41,524  INFO  RUN OK     gstin=06AABCA9012L1Z1  status=ISSUES_FOUND  issues=13  cost_usd=0.0
+2026-04-19 16:19:41,524  INFO  127.0.0.1 - - [19/Apr/2026 16:19:41] "POST /run HTTP/1.1" 200 -
+2026-04-19 16:19:42,992  INFO  RUN START  gstin=33AABCA3456M1Z8  period=032026  dry_run=True
+2026-04-19 16:19:43,090  INFO  RUN OK     gstin=33AABCA3456M1Z8  status=ISSUES_FOUND  issues=2  cost_usd=0.0
+2026-04-19 16:19:43,091  INFO  127.0.0.1 - - [19/Apr/2026 16:19:43] "POST /run HTTP/1.1" 200 -
+2026-04-19 16:21:53,706  INFO  RUN START  gstin=24AABMT1234C1Z5  period=032026  dry_run=True
+2026-04-19 16:21:53,812  INFO  RUN OK     gstin=24AABMT1234C1Z5  status=ISSUES_FOUND  issues=2  cost_usd=0.0
+2026-04-19 16:21:53,814  INFO  127.0.0.1 - - [19/Apr/2026 16:21:53] "POST /run HTTP/1.1" 200 -
+2026-04-19 16:21:55,566  INFO  RUN START  gstin=27AABCP1234D1Z3  period=032026  dry_run=True
+2026-04-19 16:21:55,664  INFO  RUN OK     gstin=27AABCP1234D1Z3  status=ISSUES_FOUND  issues=2  cost_usd=0.0
+2026-04-19 16:21:55,665  INFO  127.0.0.1 - - [19/Apr/2026 16:21:55] "POST /run HTTP/1.1" 200 -
+2026-04-19 16:21:57,235  INFO  RUN START  gstin=27AABCS5678E1Z1  period=032026  dry_run=True
+2026-04-19 16:21:57,329  INFO  RUN OK     gstin=27AABCS5678E1Z1  status=ISSUES_FOUND  issues=1  cost_usd=0.0
+2026-04-19 16:21:57,330  INFO  127.0.0.1 - - [19/Apr/2026 16:21:57] "POST /run HTTP/1.1" 200 -
+2026-04-19 16:21:58,797  INFO  RUN START  gstin=24AABCP9012F1Z5  period=032026  dry_run=True
+2026-04-19 16:21:58,895  INFO  RUN OK     gstin=24AABCP9012F1Z5  status=ISSUES_FOUND  issues=1  cost_usd=0.0
+2026-04-19 16:21:58,896  INFO  127.0.0.1 - - [19/Apr/2026 16:21:58] "POST /run HTTP/1.1" 200 -
+2026-04-19 16:22:00,304  INFO  RUN START  gstin=24AABCA3456G1Z2  period=032026  dry_run=True
+2026-04-19 16:22:00,396  INFO  RUN OK     gstin=24AABCA3456G1Z2  status=ISSUES_FOUND  issues=2  cost_usd=0.0
+2026-04-19 16:22:00,396  INFO  127.0.0.1 - - [19/Apr/2026 16:22:00] "POST /run HTTP/1.1" 200 -
+2026-04-19 16:22:01,595  INFO  RUN START  gstin=29AABCE7890H1Z4  period=032026  dry_run=True
+2026-04-19 16:22:01,687  INFO  RUN OK     gstin=29AABCE7890H1Z4  status=ISSUES_FOUND  issues=1  cost_usd=0.0
+2026-04-19 16:22:01,688  INFO  127.0.0.1 - - [19/Apr/2026 16:22:01] "POST /run HTTP/1.1" 200 -
+2026-04-19 16:22:03,128  INFO  RUN START  gstin=29AABCI1234J1Z6  period=032026  dry_run=True
+2026-04-19 16:22:03,219  INFO  RUN OK     gstin=29AABCI1234J1Z6  status=ISSUES_FOUND  issues=7  cost_usd=0.0
+2026-04-19 16:22:03,219  INFO  127.0.0.1 - - [19/Apr/2026 16:22:03] "POST /run HTTP/1.1" 200 -
+2026-04-19 16:22:04,568  INFO  RUN START  gstin=06AABCF5678K1Z3  period=032026  dry_run=True
+2026-04-19 16:22:04,669  INFO  RUN OK     gstin=06AABCF5678K1Z3  status=ISSUES_FOUND  issues=1  cost_usd=0.0
+2026-04-19 16:22:04,670  INFO  127.0.0.1 - - [19/Apr/2026 16:22:04] "POST /run HTTP/1.1" 200 -
+2026-04-19 16:22:06,154  INFO  RUN START  gstin=06AABCA9012L1Z1  period=032026  dry_run=True
+2026-04-19 16:22:06,249  INFO  RUN OK     gstin=06AABCA9012L1Z1  status=ISSUES_FOUND  issues=13  cost_usd=0.0
+2026-04-19 16:22:06,250  INFO  127.0.0.1 - - [19/Apr/2026 16:22:06] "POST /run HTTP/1.1" 200 -
+2026-04-19 16:22:07,621  INFO  RUN START  gstin=33AABCA3456M1Z8  period=032026  dry_run=True
+2026-04-19 16:22:07,714  INFO  RUN OK     gstin=33AABCA3456M1Z8  status=ISSUES_FOUND  issues=2  cost_usd=0.0
+2026-04-19 16:22:07,714  INFO  127.0.0.1 - - [19/Apr/2026 16:22:07] "POST /run HTTP/1.1" 200 -
+2026-04-20 08:22:18,999  INFO  [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://192.168.1.15:5001
+2026-04-20 08:22:18,999  INFO  [33mPress CTRL+C to quit[0m
+2026-04-20 08:23:30,639  INFO  RUN START  gstin=24AABMT1234C1Z5  period=032026  dry_run=True
+2026-04-20 08:23:31,043  INFO  RUN OK     gstin=24AABMT1234C1Z5  status=ISSUES_FOUND  issues=2  cost_usd=0.0
+2026-04-20 08:23:31,044  INFO  127.0.0.1 - - [20/Apr/2026 08:23:31] "POST /run HTTP/1.1" 200 -
+2026-04-20 08:23:33,126  INFO  RUN START  gstin=27AABCP1234D1Z3  period=032026  dry_run=True
+2026-04-20 08:23:33,226  INFO  RUN OK     gstin=27AABCP1234D1Z3  status=ISSUES_FOUND  issues=2  cost_usd=0.0
+2026-04-20 08:23:33,226  INFO  127.0.0.1 - - [20/Apr/2026 08:23:33] "POST /run HTTP/1.1" 200 -
+2026-04-20 08:23:34,602  INFO  RUN START  gstin=27AABCS5678E1Z1  period=032026  dry_run=True
+2026-04-20 08:23:34,686  INFO  RUN OK     gstin=27AABCS5678E1Z1  status=ISSUES_FOUND  issues=1  cost_usd=0.0
+2026-04-20 08:23:34,687  INFO  127.0.0.1 - - [20/Apr/2026 08:23:34] "POST /run HTTP/1.1" 200 -
+2026-04-20 08:23:35,879  INFO  RUN START  gstin=24AABCP9012F1Z5  period=032026  dry_run=True
+2026-04-20 08:23:35,968  INFO  RUN OK     gstin=24AABCP9012F1Z5  status=ISSUES_FOUND  issues=1  cost_usd=0.0
+2026-04-20 08:23:35,969  INFO  127.0.0.1 - - [20/Apr/2026 08:23:35] "POST /run HTTP/1.1" 200 -
+2026-04-20 08:23:37,308  INFO  RUN START  gstin=24AABCA3456G1Z2  period=032026  dry_run=True
+2026-04-20 08:23:37,389  INFO  RUN OK     gstin=24AABCA3456G1Z2  status=ISSUES_FOUND  issues=2  cost_usd=0.0
+2026-04-20 08:23:37,390  INFO  127.0.0.1 - - [20/Apr/2026 08:23:37] "POST /run HTTP/1.1" 200 -
+2026-04-20 08:23:38,719  INFO  RUN START  gstin=29AABCE7890H1Z4  period=032026  dry_run=True
+2026-04-20 08:23:38,810  INFO  RUN OK     gstin=29AABCE7890H1Z4  status=ISSUES_FOUND  issues=1  cost_usd=0.0
+2026-04-20 08:23:38,810  INFO  127.0.0.1 - - [20/Apr/2026 08:23:38] "POST /run HTTP/1.1" 200 -
+2026-04-20 08:23:40,017  INFO  RUN START  gstin=29AABCI1234J1Z6  period=032026  dry_run=True
+2026-04-20 08:23:40,097  INFO  RUN OK     gstin=29AABCI1234J1Z6  status=ISSUES_FOUND  issues=11  cost_usd=0.0
+2026-04-20 08:23:40,097  INFO  127.0.0.1 - - [20/Apr/2026 08:23:40] "POST /run HTTP/1.1" 200 -
+2026-04-20 08:23:41,501  INFO  RUN START  gstin=06AABCF5678K1Z3  period=032026  dry_run=True
+2026-04-20 08:23:41,606  INFO  RUN OK     gstin=06AABCF5678K1Z3  status=ISSUES_FOUND  issues=1  cost_usd=0.0
+2026-04-20 08:23:41,606  INFO  127.0.0.1 - - [20/Apr/2026 08:23:41] "POST /run HTTP/1.1" 200 -
+2026-04-20 08:23:43,073  INFO  RUN START  gstin=06AABCA9012L1Z1  period=032026  dry_run=True
+2026-04-20 08:23:43,162  INFO  RUN OK     gstin=06AABCA9012L1Z1  status=ISSUES_FOUND  issues=9  cost_usd=0.0
+2026-04-20 08:23:43,164  INFO  127.0.0.1 - - [20/Apr/2026 08:23:43] "POST /run HTTP/1.1" 200 -
+2026-04-20 08:23:44,645  INFO  RUN START  gstin=33AABCA3456M1Z8  period=032026  dry_run=True
+2026-04-20 08:23:44,728  INFO  RUN OK     gstin=33AABCA3456M1Z8  status=ISSUES_FOUND  issues=2  cost_usd=0.0
+2026-04-20 08:23:44,729  INFO  127.0.0.1 - - [20/Apr/2026 08:23:44] "POST /run HTTP/1.1" 200 -
+2026-04-20 19:40:20,455  INFO  [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://192.168.1.15:5001
+2026-04-20 19:40:20,455  INFO  [33mPress CTRL+C to quit[0m
+2026-04-20 19:50:00,378  INFO  RUN START  gstin=24AABMT1234C1Z5  period=032026  dry_run=True
+2026-04-20 19:50:01,068  INFO  RUN OK     gstin=24AABMT1234C1Z5  status=ISSUES_FOUND  issues=2  cost_usd=0.0
+2026-04-20 19:50:01,070  INFO  127.0.0.1 - - [20/Apr/2026 19:50:01] "POST /run HTTP/1.1" 200 -
+2026-04-20 19:50:03,261  INFO  RUN START  gstin=27AABCP1234D1Z3  period=032026  dry_run=True
+2026-04-20 19:50:03,366  INFO  RUN OK     gstin=27AABCP1234D1Z3  status=ISSUES_FOUND  issues=2  cost_usd=0.0
+2026-04-20 19:50:03,368  INFO  127.0.0.1 - - [20/Apr/2026 19:50:03] "POST /run HTTP/1.1" 200 -
+2026-04-20 19:50:04,822  INFO  RUN START  gstin=27AABCS5678E1Z1  period=032026  dry_run=True
+2026-04-20 19:50:04,916  INFO  RUN OK     gstin=27AABCS5678E1Z1  status=ISSUES_FOUND  issues=1  cost_usd=0.0
+2026-04-20 19:50:04,917  INFO  127.0.0.1 - - [20/Apr/2026 19:50:04] "POST /run HTTP/1.1" 200 -
+2026-04-20 19:50:06,433  INFO  RUN START  gstin=24AABCP9012F1Z5  period=032026  dry_run=True
+2026-04-20 19:50:06,533  INFO  RUN OK     gstin=24AABCP9012F1Z5  status=ISSUES_FOUND  issues=1  cost_usd=0.0
+2026-04-20 19:50:06,534  INFO  127.0.0.1 - - [20/Apr/2026 19:50:06] "POST /run HTTP/1.1" 200 -
+2026-04-20 19:50:07,915  INFO  RUN START  gstin=24AABCA3456G1Z2  period=032026  dry_run=True
+2026-04-20 19:50:07,995  INFO  RUN OK     gstin=24AABCA3456G1Z2  status=ISSUES_FOUND  issues=2  cost_usd=0.0
+2026-04-20 19:50:07,996  INFO  127.0.0.1 - - [20/Apr/2026 19:50:07] "POST /run HTTP/1.1" 200 -
+2026-04-20 19:50:09,524  INFO  RUN START  gstin=29AABCE7890H1Z4  period=032026  dry_run=True
+2026-04-20 19:50:09,627  INFO  RUN OK     gstin=29AABCE7890H1Z4  status=ISSUES_FOUND  issues=1  cost_usd=0.0
+2026-04-20 19:50:09,627  INFO  127.0.0.1 - - [20/Apr/2026 19:50:09] "POST /run HTTP/1.1" 200 -
+2026-04-20 19:50:11,086  INFO  RUN START  gstin=29AABCI1234J1Z6  period=032026  dry_run=True
+2026-04-20 19:50:11,193  INFO  RUN OK     gstin=29AABCI1234J1Z6  status=ISSUES_FOUND  issues=9  cost_usd=0.0
+2026-04-20 19:50:11,194  INFO  127.0.0.1 - - [20/Apr/2026 19:50:11] "POST /run HTTP/1.1" 200 -
+2026-04-20 19:50:12,671  INFO  RUN START  gstin=06AABCF5678K1Z3  period=032026  dry_run=True
+2026-04-20 19:50:12,770  INFO  RUN OK     gstin=06AABCF5678K1Z3  status=ISSUES_FOUND  issues=1  cost_usd=0.0
+2026-04-20 19:50:12,770  INFO  127.0.0.1 - - [20/Apr/2026 19:50:12] "POST /run HTTP/1.1" 200 -
+2026-04-20 19:50:15,188  INFO  RUN START  gstin=06AABCA9012L1Z1  period=032026  dry_run=True
+2026-04-20 19:50:15,270  INFO  RUN OK     gstin=06AABCA9012L1Z1  status=ISSUES_FOUND  issues=9  cost_usd=0.0
+2026-04-20 19:50:15,271  INFO  127.0.0.1 - - [20/Apr/2026 19:50:15] "POST /run HTTP/1.1" 200 -
+2026-04-20 19:50:16,846  INFO  RUN START  gstin=33AABCA3456M1Z8  period=032026  dry_run=True
+2026-04-20 19:50:16,945  INFO  RUN OK     gstin=33AABCA3456M1Z8  status=ISSUES_FOUND  issues=2  cost_usd=0.0
+2026-04-20 19:50:16,946  INFO  127.0.0.1 - - [20/Apr/2026 19:50:16] "POST /run HTTP/1.1" 200 -
+2026-04-20 20:39:04,530  INFO  [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://192.168.1.15:5001
+2026-04-20 20:39:04,531  INFO  [33mPress CTRL+C to quit[0m
+2026-04-20 20:41:42,683  INFO  RUN START  gstin=24AABMT1234C1Z5  period=032026  dry_run=True
+2026-04-20 20:41:43,047  INFO  RUN OK     gstin=24AABMT1234C1Z5  status=ISSUES_FOUND  issues=2  cost_usd=0.0
+2026-04-20 20:41:43,049  INFO  127.0.0.1 - - [20/Apr/2026 20:41:43] "POST /run HTTP/1.1" 200 -
+2026-04-20 20:41:45,070  INFO  RUN START  gstin=27AABCP1234D1Z3  period=032026  dry_run=True
+2026-04-20 20:41:45,162  INFO  RUN OK     gstin=27AABCP1234D1Z3  status=ISSUES_FOUND  issues=2  cost_usd=0.0
+2026-04-20 20:41:45,163  INFO  127.0.0.1 - - [20/Apr/2026 20:41:45] "POST /run HTTP/1.1" 200 -
+2026-04-20 20:41:46,665  INFO  RUN START  gstin=27AABCS5678E1Z1  period=032026  dry_run=True
+2026-04-20 20:41:46,758  INFO  RUN OK     gstin=27AABCS5678E1Z1  status=ISSUES_FOUND  issues=1  cost_usd=0.0
+2026-04-20 20:41:46,759  INFO  127.0.0.1 - - [20/Apr/2026 20:41:46] "POST /run HTTP/1.1" 200 -
+2026-04-20 20:41:47,894  INFO  RUN START  gstin=24AABCP9012F1Z5  period=032026  dry_run=True
+2026-04-20 20:41:47,984  INFO  RUN OK     gstin=24AABCP9012F1Z5  status=ISSUES_FOUND  issues=1  cost_usd=0.0
+2026-04-20 20:41:47,985  INFO  127.0.0.1 - - [20/Apr/2026 20:41:47] "POST /run HTTP/1.1" 200 -
+2026-04-20 20:41:49,363  INFO  RUN START  gstin=24AABCA3456G1Z2  period=032026  dry_run=True
+2026-04-20 20:41:49,450  INFO  RUN OK     gstin=24AABCA3456G1Z2  status=ISSUES_FOUND  issues=2  cost_usd=0.0
+2026-04-20 20:41:49,451  INFO  127.0.0.1 - - [20/Apr/2026 20:41:49] "POST /run HTTP/1.1" 200 -
+2026-04-20 20:41:50,893  INFO  RUN START  gstin=29AABCE7890H1Z4  period=032026  dry_run=True
+2026-04-20 20:41:50,980  INFO  RUN OK     gstin=29AABCE7890H1Z4  status=ISSUES_FOUND  issues=1  cost_usd=0.0
+2026-04-20 20:41:50,981  INFO  127.0.0.1 - - [20/Apr/2026 20:41:50] "POST /run HTTP/1.1" 200 -
+2026-04-20 20:41:52,119  INFO  RUN START  gstin=29AABCI1234J1Z6  period=032026  dry_run=True
+2026-04-20 20:41:52,219  INFO  RUN OK     gstin=29AABCI1234J1Z6  status=ISSUES_FOUND  issues=2  cost_usd=0.0
+2026-04-20 20:41:52,219  INFO  127.0.0.1 - - [20/Apr/2026 20:41:52] "POST /run HTTP/1.1" 200 -
+2026-04-20 20:41:53,563  INFO  RUN START  gstin=06AABCF5678K1Z3  period=032026  dry_run=True
+2026-04-20 20:41:53,643  INFO  RUN OK     gstin=06AABCF5678K1Z3  status=ISSUES_FOUND  issues=1  cost_usd=0.0
+2026-04-20 20:41:53,644  INFO  127.0.0.1 - - [20/Apr/2026 20:41:53] "POST /run HTTP/1.1" 200 -
+2026-04-20 20:41:55,003  INFO  RUN START  gstin=06AABCA9012L1Z1  period=032026  dry_run=True
+2026-04-20 20:41:55,092  INFO  RUN OK     gstin=06AABCA9012L1Z1  status=ISSUES_FOUND  issues=1  cost_usd=0.0
+2026-04-20 20:41:55,093  INFO  127.0.0.1 - - [20/Apr/2026 20:41:55] "POST /run HTTP/1.1" 200 -
+2026-04-20 20:41:57,322  INFO  RUN START  gstin=33AABCA3456M1Z8  period=032026  dry_run=True
+2026-04-20 20:41:57,408  INFO  RUN OK     gstin=33AABCA3456M1Z8  status=ISSUES_FOUND  issues=2  cost_usd=0.0
+2026-04-20 20:41:57,409  INFO  127.0.0.1 - - [20/Apr/2026 20:41:57] "POST /run HTTP/1.1" 200 -
+2026-04-21 07:49:29,030  INFO  [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://192.168.1.15:5001
+2026-04-21 07:49:29,031  INFO  [33mPress CTRL+C to quit[0m
+2026-04-21 07:51:29,182  INFO  [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://192.168.1.15:5001
+2026-04-21 07:51:29,182  INFO  [33mPress CTRL+C to quit[0m
+2026-04-21 07:53:29,161  INFO  RUN START  gstin=24AABMT1234C1Z5  period=032026  dry_run=True
+2026-04-21 07:53:29,561  INFO  RUN OK     gstin=24AABMT1234C1Z5  status=ISSUES_FOUND  issues=2  cost_usd=0.0
+2026-04-21 07:53:29,562  INFO  127.0.0.1 - - [21/Apr/2026 07:53:29] "POST /run HTTP/1.1" 200 -
+2026-04-21 07:53:31,560  INFO  RUN START  gstin=27AABCP1234D1Z3  period=032026  dry_run=True
+2026-04-21 07:53:31,653  INFO  RUN OK     gstin=27AABCP1234D1Z3  status=ISSUES_FOUND  issues=2  cost_usd=0.0
+2026-04-21 07:53:31,654  INFO  127.0.0.1 - - [21/Apr/2026 07:53:31] "POST /run HTTP/1.1" 200 -
+2026-04-21 07:53:33,095  INFO  RUN START  gstin=27AABCS5678E1Z1  period=032026  dry_run=True
+2026-04-21 07:53:33,184  INFO  RUN OK     gstin=27AABCS5678E1Z1  status=ISSUES_FOUND  issues=1  cost_usd=0.0
+2026-04-21 07:53:33,185  INFO  127.0.0.1 - - [21/Apr/2026 07:53:33] "POST /run HTTP/1.1" 200 -
+2026-04-21 07:53:34,627  INFO  RUN START  gstin=24AABCP9012F1Z5  period=032026  dry_run=True
+2026-04-21 07:53:34,715  INFO  RUN OK     gstin=24AABCP9012F1Z5  status=ISSUES_FOUND  issues=1  cost_usd=0.0
+2026-04-21 07:53:34,716  INFO  127.0.0.1 - - [21/Apr/2026 07:53:34] "POST /run HTTP/1.1" 200 -
+2026-04-21 07:53:36,158  INFO  RUN START  gstin=24AABCA3456G1Z2  period=032026  dry_run=True
+2026-04-21 07:53:36,250  INFO  RUN OK     gstin=24AABCA3456G1Z2  status=ISSUES_FOUND  issues=2  cost_usd=0.0
+2026-04-21 07:53:36,251  INFO  127.0.0.1 - - [21/Apr/2026 07:53:36] "POST /run HTTP/1.1" 200 -
+2026-04-21 07:53:37,691  INFO  RUN START  gstin=29AABCE7890H1Z4  period=032026  dry_run=True
+2026-04-21 07:53:37,774  INFO  RUN OK     gstin=29AABCE7890H1Z4  status=ISSUES_FOUND  issues=1  cost_usd=0.0
+2026-04-21 07:53:37,774  INFO  127.0.0.1 - - [21/Apr/2026 07:53:37] "POST /run HTTP/1.1" 200 -
+2026-04-21 07:53:38,927  INFO  RUN START  gstin=29AABCI1234J1Z6  period=032026  dry_run=True
+2026-04-21 07:53:39,006  INFO  RUN OK     gstin=29AABCI1234J1Z6  status=ISSUES_FOUND  issues=2  cost_usd=0.0
+2026-04-21 07:53:39,006  INFO  127.0.0.1 - - [21/Apr/2026 07:53:39] "POST /run HTTP/1.1" 200 -
+2026-04-21 07:53:40,356  INFO  RUN START  gstin=06AABCF5678K1Z3  period=032026  dry_run=True
+2026-04-21 07:53:40,449  INFO  RUN OK     gstin=06AABCF5678K1Z3  status=ISSUES_FOUND  issues=1  cost_usd=0.0
+2026-04-21 07:53:40,449  INFO  127.0.0.1 - - [21/Apr/2026 07:53:40] "POST /run HTTP/1.1" 200 -
+2026-04-21 07:53:41,703  INFO  RUN START  gstin=06AABCA9012L1Z1  period=032026  dry_run=True
+2026-04-21 07:53:41,840  INFO  RUN OK     gstin=06AABCA9012L1Z1  status=ISSUES_FOUND  issues=1  cost_usd=0.0
+2026-04-21 07:53:41,841  INFO  127.0.0.1 - - [21/Apr/2026 07:53:41] "POST /run HTTP/1.1" 200 -
+2026-04-21 07:53:43,030  INFO  RUN START  gstin=33AABCA3456M1Z8  period=032026  dry_run=True
+2026-04-21 07:53:43,132  INFO  RUN OK     gstin=33AABCA3456M1Z8  status=ISSUES_FOUND  issues=2  cost_usd=0.0
+2026-04-21 07:53:43,133  INFO  127.0.0.1 - - [21/Apr/2026 07:53:43] "POST /run HTTP/1.1" 200 -
+2026-04-23 07:14:29,554  INFO  [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://192.168.1.15:5001
+2026-04-23 07:14:29,555  INFO  [33mPress CTRL+C to quit[0m
+2026-04-25 13:24:51,929  INFO  [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://192.168.1.15:5001
+2026-04-25 13:24:51,930  INFO  [33mPress CTRL+C to quit[0m
+2026-04-25 13:26:06,921  INFO  RUN START  gstin=24AABMT1234C1Z5  period=032026  dry_run=True
+2026-04-25 13:26:07,378  INFO  RUN OK     gstin=24AABMT1234C1Z5  status=ISSUES_FOUND  issues=2  cost_usd=0.0
+2026-04-25 13:26:07,380  INFO  127.0.0.1 - - [25/Apr/2026 13:26:07] "POST /run HTTP/1.1" 200 -
+2026-04-25 13:26:09,770  INFO  RUN START  gstin=27AABCP1234D1Z3  period=032026  dry_run=True
+2026-04-25 13:26:09,860  INFO  RUN OK     gstin=27AABCP1234D1Z3  status=ISSUES_FOUND  issues=2  cost_usd=0.0
+2026-04-25 13:26:09,861  INFO  127.0.0.1 - - [25/Apr/2026 13:26:09] "POST /run HTTP/1.1" 200 -
+2026-04-25 13:26:11,093  INFO  RUN START  gstin=27AABCS5678E1Z1  period=032026  dry_run=True
+2026-04-25 13:26:11,243  INFO  RUN OK     gstin=27AABCS5678E1Z1  status=ISSUES_FOUND  issues=1  cost_usd=0.0
+2026-04-25 13:26:11,244  INFO  127.0.0.1 - - [25/Apr/2026 13:26:11] "POST /run HTTP/1.1" 200 -
+2026-04-25 13:26:12,564  INFO  RUN START  gstin=24AABCP9012F1Z5  period=032026  dry_run=True
+2026-04-25 13:26:12,649  INFO  RUN OK     gstin=24AABCP9012F1Z5  status=ISSUES_FOUND  issues=1  cost_usd=0.0
+2026-04-25 13:26:12,649  INFO  127.0.0.1 - - [25/Apr/2026 13:26:12] "POST /run HTTP/1.1" 200 -
+2026-04-25 13:26:13,935  INFO  RUN START  gstin=24AABCA3456G1Z2  period=032026  dry_run=True
+2026-04-25 13:26:14,016  INFO  RUN OK     gstin=24AABCA3456G1Z2  status=ISSUES_FOUND  issues=2  cost_usd=0.0
+2026-04-25 13:26:14,017  INFO  127.0.0.1 - - [25/Apr/2026 13:26:14] "POST /run HTTP/1.1" 200 -
+2026-04-25 13:26:15,137  INFO  RUN START  gstin=29AABCE7890H1Z4  period=032026  dry_run=True
+2026-04-25 13:26:15,217  INFO  RUN OK     gstin=29AABCE7890H1Z4  status=ISSUES_FOUND  issues=1  cost_usd=0.0
+2026-04-25 13:26:15,217  INFO  127.0.0.1 - - [25/Apr/2026 13:26:15] "POST /run HTTP/1.1" 200 -
+2026-04-25 13:26:16,628  INFO  RUN START  gstin=29AABCI1234J1Z6  period=032026  dry_run=True
+2026-04-25 13:26:16,713  INFO  RUN OK     gstin=29AABCI1234J1Z6  status=ISSUES_FOUND  issues=2  cost_usd=0.0
+2026-04-25 13:26:16,714  INFO  127.0.0.1 - - [25/Apr/2026 13:26:16] "POST /run HTTP/1.1" 200 -
+2026-04-25 13:26:18,130  INFO  RUN START  gstin=06AABCF5678K1Z3  period=032026  dry_run=True
+2026-04-25 13:26:18,212  INFO  RUN OK     gstin=06AABCF5678K1Z3  status=ISSUES_FOUND  issues=1  cost_usd=0.0
+2026-04-25 13:26:18,212  INFO  127.0.0.1 - - [25/Apr/2026 13:26:18] "POST /run HTTP/1.1" 200 -
+2026-04-25 13:26:19,286  INFO  RUN START  gstin=06AABCA9012L1Z1  period=032026  dry_run=True
+2026-04-25 13:26:19,371  INFO  RUN OK     gstin=06AABCA9012L1Z1  status=ISSUES_FOUND  issues=1  cost_usd=0.0
+2026-04-25 13:26:19,372  INFO  127.0.0.1 - - [25/Apr/2026 13:26:19] "POST /run HTTP/1.1" 200 -
+2026-04-25 13:26:20,815  INFO  RUN START  gstin=33AABCA3456M1Z8  period=032026  dry_run=True
+2026-04-25 13:26:20,898  INFO  RUN OK     gstin=33AABCA3456M1Z8  status=ISSUES_FOUND  issues=2  cost_usd=0.0
+2026-04-25 13:26:20,899  INFO  127.0.0.1 - - [25/Apr/2026 13:26:20] "POST /run HTTP/1.1" 200 -

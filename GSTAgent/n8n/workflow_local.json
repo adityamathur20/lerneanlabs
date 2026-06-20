@@ -1,0 +1,485 @@
+{
+  "name": "GSTAgent — Monthly Reconciliation (LOCAL)",
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true
+  },
+  "tags": [{ "name": "GST" }, { "name": "local" }],
+  "nodes": [
+
+    {
+      "id": "note-setup",
+      "name": "📋 Local Setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [-200, -440],
+      "parameters": {
+        "content": "## Local n8n — Setup\n\n**Start n8n:**\n```\nnpm install -g n8n\nn8n start\n```\n\n**Set these in your shell before starting n8n (tcsh):**\n```\nsetenv GSTAGENT_DIR  /path/to/GSTAgent\nsetenv SUPABASE_URL  https://xxxx.supabase.co\nsetenv SUPABASE_SERVICE_KEY  eyJhbGci...\n```\n\n**For demo:** Pipeline runs with `--dry-run` — no API keys needed.\nWhatsApp and Email nodes are set to continue-on-fail.\nAll Supabase writes work immediately.\n\n**Remove `--dry-run` from the Run Pipeline node for production.**",
+        "height": 340,
+        "width": 440,
+        "color": 4
+      }
+    },
+
+    {
+      "id": "note-missing-apis",
+      "name": "🟡 Missing APIs — demo safe",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [2700, -220],
+      "parameters": {
+        "content": "## Delivery Nodes\n\nWhatsApp and Email nodes will **show yellow** (continue-on-fail) during demo — that is expected.\n\nAll upstream nodes (Supabase reads/writes + Python pipeline) will be **green**.\n\nAdd `META_ACCESS_TOKEN` and `SENDGRID_API_KEY` env vars later to enable delivery.",
+        "height": 200,
+        "width": 340,
+        "color": 3
+      }
+    },
+
+    {
+      "id": "schedule-trigger",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [-100, 0],
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "months",
+              "triggerAtDayOfMonth": 15,
+              "triggerAtHour": 3,
+              "triggerAtMinute": 30
+            }
+          ]
+        }
+      }
+    },
+
+    {
+      "id": "calculate-period",
+      "name": "Calculate Period",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [140, 0],
+      "parameters": {
+        "jsCode": "const now   = new Date();\nconst prev  = new Date(now.getFullYear(), now.getMonth() - 1, 1);\nconst mm    = String(prev.getMonth() + 1).padStart(2, '0');\nconst yyyy  = String(prev.getFullYear());\nconst months = ['','January','February','March','April','May','June','July','August','September','October','November','December'];\nconst curMM   = String(now.getMonth() + 1).padStart(2, '0');\nconst curYYYY = String(now.getFullYear());\nreturn [{ json: {\n  period:       mm + yyyy,\n  period_label: months[parseInt(mm)] + ' ' + yyyy,\n  gstr1_due:    curYYYY + '-' + curMM + '-11',\n  gstr3b_due:   curYYYY + '-' + curMM + '-20'\n}}];"
+      }
+    },
+
+    {
+      "id": "get-active-clients",
+      "name": "Get Active Clients",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [380, 0],
+      "parameters": {
+        "method": "GET",
+        "url": "={{ $env.SUPABASE_URL }}/rest/v1/clients",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "apikey",        "value": "={{ $env.SUPABASE_SERVICE_KEY }}" },
+            { "name": "Authorization", "value": "=Bearer {{ $env.SUPABASE_SERVICE_KEY }}" }
+          ]
+        },
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            { "name": "subscription_status", "value": "in.(active,trial)" },
+            { "name": "select", "value": "id,gstin,firm_name,owner_name,owner_whatsapp,ca_name,ca_email" }
+          ]
+        },
+        "options": {}
+      }
+    },
+
+    {
+      "id": "split-clients",
+      "name": "Split Clients",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [620, 0],
+      "parameters": { "batchSize": 1, "options": {} }
+    },
+
+    {
+      "id": "check-gsp-session",
+      "name": "Check GSP Session",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [620, 200],
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.SUPABASE_URL }}/rest/v1/rpc/gsp_session_status",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "apikey",        "value": "={{ $env.SUPABASE_SERVICE_KEY }}" },
+            { "name": "Authorization", "value": "=Bearer {{ $env.SUPABASE_SERVICE_KEY }}" },
+            { "name": "Content-Type",  "value": "application/json" }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "json",
+        "body": "={{ JSON.stringify({ p_client_id: $('Split Clients').item.json.id }) }}",
+        "options": {}
+      }
+    },
+
+    {
+      "id": "if-session-valid",
+      "name": "IF Session Valid",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [860, 200],
+      "parameters": {
+        "conditions": {
+          "options": { "caseSensitive": false, "leftValue": "", "typeValidation": "loose" },
+          "conditions": [
+            {
+              "leftValue":  "={{ $json[0].is_valid }}",
+              "rightValue": true,
+              "operator": { "type": "boolean", "operation": "true" }
+            }
+          ],
+          "combinator": "and"
+        }
+      }
+    },
+
+    {
+      "id": "log-no-session",
+      "name": "Log – No GSP Session",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [860, 420],
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.SUPABASE_URL }}/rest/v1/filing_runs",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "apikey",        "value": "={{ $env.SUPABASE_SERVICE_KEY }}" },
+            { "name": "Authorization", "value": "=Bearer {{ $env.SUPABASE_SERVICE_KEY }}" },
+            { "name": "Content-Type",  "value": "application/json" },
+            { "name": "Prefer",        "value": "return=minimal" }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "json",
+        "body": "={{ JSON.stringify({\n  client_id:       $('Split Clients').item.json.id,\n  period:          $('Calculate Period').item.json.period,\n  period_label:    $('Calculate Period').item.json.period_label,\n  gstr1_due_date:  $('Calculate Period').item.json.gstr1_due,\n  gstr3b_due_date: $('Calculate Period').item.json.gstr3b_due,\n  run_status:      'failed',\n  error_message:   'No valid GSP session. OTP refresh required.',\n  started_at:      new Date().toISOString(),\n  completed_at:    new Date().toISOString()\n}) }}",
+        "options": {}
+      }
+    },
+
+    {
+      "id": "create-filing-run",
+      "name": "Create Filing Run",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [1100, 100],
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.SUPABASE_URL }}/rest/v1/filing_runs",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "apikey",        "value": "={{ $env.SUPABASE_SERVICE_KEY }}" },
+            { "name": "Authorization", "value": "=Bearer {{ $env.SUPABASE_SERVICE_KEY }}" },
+            { "name": "Content-Type",  "value": "application/json" },
+            { "name": "Prefer",        "value": "return=representation" }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "json",
+        "body": "={{ JSON.stringify({\n  client_id:       $('Split Clients').item.json.id,\n  period:          $('Calculate Period').item.json.period,\n  period_label:    $('Calculate Period').item.json.period_label,\n  gstr1_due_date:  $('Calculate Period').item.json.gstr1_due,\n  gstr3b_due_date: $('Calculate Period').item.json.gstr3b_due,\n  run_status:      'running',\n  started_at:      new Date().toISOString()\n}) }}",
+        "options": {}
+      }
+    },
+
+    {
+      "id": "run-pipeline",
+      "name": "Run Pipeline",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [1340, 100],
+      "parameters": {
+        "command": "=cd {{ $env.GSTAGENT_DIR }} && python3 scripts/run_pipeline.py --gstin {{ $('Split Clients').item.json.gstin }} --period {{ $('Calculate Period').item.json.period }} --dry-run"
+      }
+    },
+
+    {
+      "id": "if-pipeline-success",
+      "name": "IF Pipeline Success",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [1580, 100],
+      "parameters": {
+        "conditions": {
+          "options": { "caseSensitive": false, "leftValue": "", "typeValidation": "loose" },
+          "conditions": [
+            {
+              "leftValue":  "={{ $json.exitCode }}",
+              "rightValue": 0,
+              "operator": { "type": "number", "operation": "equals" }
+            }
+          ],
+          "combinator": "and"
+        }
+      }
+    },
+
+    {
+      "id": "parse-output",
+      "name": "Parse Pipeline Output",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1820, 0],
+      "parameters": {
+        "jsCode": "const result = JSON.parse($input.item.json.stdout);\nresult.filing_run_id = $('Create Filing Run').item.json.id;\nreturn [{ json: result }];"
+      }
+    },
+
+    {
+      "id": "save-result",
+      "name": "Save Reconciliation Result",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [2060, 0],
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.SUPABASE_URL }}/rest/v1/reconciliation_results",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "apikey",        "value": "={{ $env.SUPABASE_SERVICE_KEY }}" },
+            { "name": "Authorization", "value": "=Bearer {{ $env.SUPABASE_SERVICE_KEY }}" },
+            { "name": "Content-Type",  "value": "application/json" },
+            { "name": "Prefer",        "value": "return=minimal" }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "json",
+        "body": "={{ JSON.stringify({\n  filing_run_id:     $json.filing_run_id,\n  result_json:       { status: $json.reconciliation_status, issue_count: $json.issue_count, net_payable_inr: $json.net_payable_inr },\n  whatsapp_message:  $json.whatsapp_message,\n  ca_report:         $json.ca_report,\n  issues_structured: $json.issues_structured,\n  model_whatsapp:    $json.model_whatsapp,\n  model_ca_report:   $json.model_ca_report,\n  fallback_used:     $json.fallback_used\n}) }}",
+        "options": {}
+      }
+    },
+
+    {
+      "id": "update-run-complete",
+      "name": "Update Run – Complete",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [2300, 0],
+      "parameters": {
+        "method": "PATCH",
+        "url": "={{ $env.SUPABASE_URL }}/rest/v1/filing_runs",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "apikey",        "value": "={{ $env.SUPABASE_SERVICE_KEY }}" },
+            { "name": "Authorization", "value": "=Bearer {{ $env.SUPABASE_SERVICE_KEY }}" },
+            { "name": "Content-Type",  "value": "application/json" },
+            { "name": "Prefer",        "value": "return=minimal" }
+          ]
+        },
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            { "name": "id", "value": "=eq.{{ $('Parse Pipeline Output').item.json.filing_run_id }}" }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "json",
+        "body": "={{ JSON.stringify({\n  run_status:            'completed',\n  reconciliation_status: $('Parse Pipeline Output').item.json.reconciliation_status,\n  issue_count:           $('Parse Pipeline Output').item.json.issue_count,\n  net_payable_inr:       $('Parse Pipeline Output').item.json.net_payable_inr,\n  cost_usd:              $('Parse Pipeline Output').item.json.cost_usd,\n  cost_inr:              $('Parse Pipeline Output').item.json.cost_inr,\n  completed_at:          new Date().toISOString()\n}) }}",
+        "options": {}
+      }
+    },
+
+    {
+      "id": "update-run-failed",
+      "name": "Update Run – Failed",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [1820, 240],
+      "parameters": {
+        "method": "PATCH",
+        "url": "={{ $env.SUPABASE_URL }}/rest/v1/filing_runs",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "apikey",        "value": "={{ $env.SUPABASE_SERVICE_KEY }}" },
+            { "name": "Authorization", "value": "=Bearer {{ $env.SUPABASE_SERVICE_KEY }}" },
+            { "name": "Content-Type",  "value": "application/json" },
+            { "name": "Prefer",        "value": "return=minimal" }
+          ]
+        },
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            { "name": "id", "value": "=eq.{{ $('Create Filing Run').item.json.id }}" }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "json",
+        "body": "={{ JSON.stringify({\n  run_status:    'failed',\n  error_message: $('Run Pipeline').item.json.stderr || 'Pipeline exited with non-zero code',\n  completed_at:  new Date().toISOString()\n}) }}",
+        "options": {}
+      }
+    },
+
+    {
+      "id": "if-has-whatsapp",
+      "name": "IF Has WhatsApp",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [2540, 0],
+      "parameters": {
+        "conditions": {
+          "options": { "caseSensitive": false, "leftValue": "", "typeValidation": "loose" },
+          "conditions": [
+            {
+              "leftValue":  "={{ $('Parse Pipeline Output').item.json.whatsapp_number }}",
+              "rightValue": "",
+              "operator": { "type": "string", "operation": "notEmpty" }
+            }
+          ],
+          "combinator": "and"
+        }
+      }
+    },
+
+    {
+      "id": "send-whatsapp",
+      "name": "Send WhatsApp Alert",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [2780, -100],
+      "continueOnFail": true,
+      "parameters": {
+        "method": "POST",
+        "url": "=https://graph.facebook.com/v19.0/{{ $env.META_PHONE_NUMBER_ID }}/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "Authorization", "value": "=Bearer {{ $env.META_ACCESS_TOKEN }}" },
+            { "name": "Content-Type",  "value": "application/json" }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "json",
+        "body": "={{ JSON.stringify({\n  messaging_product: 'whatsapp',\n  recipient_type:    'individual',\n  to:                $('Parse Pipeline Output').item.json.whatsapp_number,\n  type:              'text',\n  text: { preview_url: false, body: $('Parse Pipeline Output').item.json.whatsapp_message }\n}) }}",
+        "options": {}
+      }
+    },
+
+    {
+      "id": "log-whatsapp",
+      "name": "Log WhatsApp Sent",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [3020, -100],
+      "continueOnFail": true,
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.SUPABASE_URL }}/rest/v1/alerts_sent",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "apikey",        "value": "={{ $env.SUPABASE_SERVICE_KEY }}" },
+            { "name": "Authorization", "value": "=Bearer {{ $env.SUPABASE_SERVICE_KEY }}" },
+            { "name": "Content-Type",  "value": "application/json" },
+            { "name": "Prefer",        "value": "return=minimal" }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "json",
+        "body": "={{ JSON.stringify({\n  filing_run_id:       $('Parse Pipeline Output').item.json.filing_run_id,\n  alert_type:          'whatsapp',\n  recipient:           $('Parse Pipeline Output').item.json.whatsapp_number,\n  status:              'sent',\n  provider:            'meta_cloud_api',\n  sent_at:             new Date().toISOString()\n}) }}",
+        "options": {}
+      }
+    },
+
+    {
+      "id": "send-ca-email",
+      "name": "Send CA Email",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [3020, 100],
+      "continueOnFail": true,
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.sendgrid.com/v3/mail/send",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "Authorization", "value": "=Bearer {{ $env.SENDGRID_API_KEY }}" },
+            { "name": "Content-Type",  "value": "application/json" }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "json",
+        "body": "={{ JSON.stringify({\n  personalizations: [{ to: [{ email: $('Parse Pipeline Output').item.json.ca_email }] }],\n  from: { email: 'gst@yourdomain.com', name: 'GST Agent' },\n  subject: 'GST Filing Report — ' + $('Parse Pipeline Output').item.json.firm_name + ' | ' + $('Calculate Period').item.json.period_label,\n  content: [{ type: 'text/plain', value: $('Parse Pipeline Output').item.json.ca_report }]\n}) }}",
+        "options": {}
+      }
+    },
+
+    {
+      "id": "log-email",
+      "name": "Log Email Sent",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [3260, 100],
+      "continueOnFail": true,
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.SUPABASE_URL }}/rest/v1/alerts_sent",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "apikey",        "value": "={{ $env.SUPABASE_SERVICE_KEY }}" },
+            { "name": "Authorization", "value": "=Bearer {{ $env.SUPABASE_SERVICE_KEY }}" },
+            { "name": "Content-Type",  "value": "application/json" },
+            { "name": "Prefer",        "value": "return=minimal" }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "json",
+        "body": "={{ JSON.stringify({\n  filing_run_id: $('Parse Pipeline Output').item.json.filing_run_id,\n  alert_type:    'email_ca',\n  recipient:     $('Parse Pipeline Output').item.json.ca_email,\n  status:        'sent',\n  provider:      'sendgrid',\n  sent_at:       new Date().toISOString()\n}) }}",
+        "options": {}
+      }
+    },
+
+    {
+      "id": "next-client",
+      "name": "Next Client",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [3500, 0],
+      "parameters": {}
+    }
+
+  ],
+
+  "connections": {
+    "Schedule Trigger":           { "main": [[{ "node": "Calculate Period",          "type": "main", "index": 0 }]] },
+    "Calculate Period":           { "main": [[{ "node": "Get Active Clients",         "type": "main", "index": 0 }]] },
+    "Get Active Clients":         { "main": [[{ "node": "Split Clients",              "type": "main", "index": 0 }]] },
+    "Split Clients":              { "main": [[{ "node": "Check GSP Session",          "type": "main", "index": 0 }], []] },
+    "Check GSP Session":          { "main": [[{ "node": "IF Session Valid",           "type": "main", "index": 0 }]] },
+    "IF Session Valid":           { "main": [[{ "node": "Create Filing Run",          "type": "main", "index": 0 }], [{ "node": "Log – No GSP Session", "type": "main", "index": 0 }]] },
+    "Create Filing Run":          { "main": [[{ "node": "Run Pipeline",               "type": "main", "index": 0 }]] },
+    "Run Pipeline":               { "main": [[{ "node": "IF Pipeline Success",        "type": "main", "index": 0 }]] },
+    "IF Pipeline Success":        { "main": [[{ "node": "Parse Pipeline Output",      "type": "main", "index": 0 }], [{ "node": "Update Run – Failed",  "type": "main", "index": 0 }]] },
+    "Parse Pipeline Output":      { "main": [[{ "node": "Save Reconciliation Result", "type": "main", "index": 0 }]] },
+    "Save Reconciliation Result": { "main": [[{ "node": "Update Run – Complete",      "type": "main", "index": 0 }]] },
+    "Update Run – Complete":      { "main": [[{ "node": "IF Has WhatsApp",            "type": "main", "index": 0 }]] },
+    "IF Has WhatsApp":            { "main": [[{ "node": "Send WhatsApp Alert",        "type": "main", "index": 0 }], [{ "node": "Send CA Email",        "type": "main", "index": 0 }]] },
+    "Send WhatsApp Alert":        { "main": [[{ "node": "Log WhatsApp Sent",          "type": "main", "index": 0 }]] },
+    "Log WhatsApp Sent":          { "main": [[{ "node": "Send CA Email",              "type": "main", "index": 0 }]] },
+    "Send CA Email":              { "main": [[{ "node": "Log Email Sent",             "type": "main", "index": 0 }]] },
+    "Log Email Sent":             { "main": [[{ "node": "Next Client",                "type": "main", "index": 0 }]] },
+    "Update Run – Failed":        { "main": [[{ "node": "Next Client",                "type": "main", "index": 0 }]] },
+    "Log – No GSP Session":       { "main": [[{ "node": "Next Client",                "type": "main", "index": 0 }]] },
+    "Next Client":                { "main": [[{ "node": "Split Clients",              "type": "main", "index": 0 }]] }
+  }
+}

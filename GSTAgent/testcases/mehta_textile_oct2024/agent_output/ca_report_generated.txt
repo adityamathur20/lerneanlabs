@@ -1,0 +1,54 @@
+CA HANDOFF REPORT — Mehta Textile Traders
+GSTIN: 24AABMT1234C1Z5 | Period: October 2024 | Status: CRITICAL | Issues: 3
+Generated: 10 Apr 2026 14:13
+────────────────────────────────────────────────────────────
+
+FILING STATUS SUMMARY
+Sales: 5 invoices | Total taxable value: ₹555,000.00
+Output GST: IGST ₹10,200.00 | CGST ₹28,200.00 | SGST ₹28,200.00
+Purchases: 4 invoices | Total purchase value: ₹335,000.00
+Overall status: CRITICAL
+
+ISSUES REQUIRING YOUR ATTENTION
+1. [HIGH] CANCELLED GSTIN — MTT/OCT/004: Verma Traders (24AAFVT9999Z1Z9)
+   Action: Reclassify invoice(s) with this GSTIN from B2B to B2CS in GSTR-1
+   Tax impact: Nil (invoice must be reclassified B2B → B2CS)
+
+2. [HIGH] MISSING ITC — DM/2024/387 (Dye Masters Pvt Ltd)
+   Invoice DM/2024/387 from Dye Masters Pvt Ltd (24AABDM5678E1Z2) not found in GSTR-2B. Supplier may not have filed GSTR-1.
+   Tax impact: ₹5,040.00 ITC at risk. Do not claim. Follow up with supplier.
+
+3. [LOW] HSN FLAG — MTT/OCT/003: 'Cotton Plain Weave Fabric 60x60'
+   HSN in Tally: 5407 | Suggested: 5208
+   Tax impact: Nil (same rate). Verify correct HSN before filing.
+
+ITC POSITION
+Confirmed ITC (present in GSTR-2B):
+  IGST: ₹0.00 | CGST: ₹17,580.00 | SGST: ₹17,580.00
+  Total confirmed: ₹35,160.00
+ITC at risk (absent from GSTR-2B): ₹5,040.00
+Strategy: Conservative — at-risk ITC excluded this period.
+
+TAX LIABILITY CALCULATION
+Output:  IGST ₹10,200.00 | CGST ₹28,200.00 | SGST ₹28,200.00
+ITC:     IGST ₹0.00 | CGST ₹17,580.00 | SGST ₹17,580.00
+Net:     IGST ₹10,200.00 | CGST ₹10,620.00 | SGST ₹10,620.00
+TOTAL NET PAYABLE: ₹31,440.00
+(If at-risk ITC also claimed: ₹26,400.00)
+
+RECOMMENDED ACTIONS
+1. Resolve GSTIN issue(s) — reclassify affected invoices from B2B to B2CS before uploading GSTR-1
+2. Verify HSN code(s) with client — correct in Tally if required
+3. Contact at-risk supplier(s) — request GSTR-1 filing before 2024-11-11
+4. Upload and file GSTR-1 by 2024-11-11
+5. Instruct client to deposit ₹31,440.00 via GST portal challan by 2024-11-20
+6. Review auto-populated GSTR-3B and file by 2024-11-20
+
+FILING CHECKLIST
+[ ] Review and approve GSTR-1 draft                         (by 2024-11-11)
+[ ] Resolve all flagged issues                               (by 2024-11-11)
+[ ] File GSTR-1 on GST portal                               (by 2024-11-11)
+[ ] Client deposits ₹31,440.00 challan          (by 2024-11-20)
+[ ] Verify GSTR-3B auto-population from GSTR-1              (by 2024-11-20)
+[ ] File GSTR-3B with DSC/EVC                               (by 2024-11-20)
+────────────────────────────────────────────────────────────
