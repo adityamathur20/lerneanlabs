@@ -157,8 +157,8 @@ In India, businesses access the GST Portal programmatically only via a licensed 
 
 ### Credentials obtained
 
-- **Client ID:** `GSTSda10abb9-ce3a-4c80-ad88-f4552aba03c0`
-- **Client Secret:** `GSTSa214867f-eef4-4161-af95-6264b6365bad`
+- **Client ID:** `GSTSda10abb9-...` (full value in local env / password manager — never committed)
+- **Client Secret:** `GSTSa214867f-...` (full value in local env / password manager — never committed)
 - **Email:** `aditya.mathur96@outlook.com`
 - **Sandbox URL:** `https://apisandbox.whitebooks.in`
 
@@ -315,8 +315,8 @@ SUPABASE_URL=https://xxxx.supabase.co
 SUPABASE_SERVICE_KEY=eyJ...
 
 # WhiteBooks GSP (live mode only)
-GSP_CLIENT_ID=GSTSda10abb9-ce3a-4c80-ad88-f4552aba03c0
-GSP_CLIENT_SECRET=GSTSa214867f-eef4-4161-af95-6264b6365bad
+GSP_CLIENT_ID=GSTSda10abb9-...
+GSP_CLIENT_SECRET=GSTSa214867f-...
 GSP_EMAIL=aditya.mathur96@outlook.com
 
 # Optional: override sandbox GSTIN (Tamil Nadu buyer account)

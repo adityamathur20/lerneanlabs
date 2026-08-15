@@ -34,7 +34,7 @@ Usage:
 """
 
 import http.client
-import json, os, urllib.request, urllib.error, urllib.parse
+import json, os, time, urllib.request, urllib.error, urllib.parse
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from typing import Optional, Union
@@ -314,6 +314,8 @@ class GSPClient:
         dry_run: bool = False,
         sandbox: bool = True,
         db: Optional[SupabaseClient] = None,
+        gsp_gstin: Optional[str] = None,
+        gsp_username: Optional[str] = None,
     ):
         self.gstin    = gstin
         self.dry_run  = dry_run
@@ -323,10 +325,13 @@ class GSPClient:
         self.client_secret = os.environ.get("GSP_CLIENT_SECRET", "")
         self.email         = os.environ.get("GSP_EMAIL",         "")
 
-        # GSP_SANDBOX_GSTIN and GSP_GST_USERNAME env vars override the generic PDF credentials.
-        # WhiteBooks provides account-specific sandbox credentials that differ from the PDF.
-        env_gstin    = os.environ.get("GSP_SANDBOX_GSTIN", "")
-        env_username = os.environ.get("GSP_GST_USERNAME",  "")
+        # Explicit constructor args take priority — lets callers iterate over
+        # multiple sandbox (gstin, username) pairs without mutating env vars.
+        # Otherwise fall back to GSP_SANDBOX_GSTIN / GSP_GST_USERNAME env vars,
+        # which override the generic PDF credentials (WhiteBooks issues
+        # account-specific sandbox credentials that differ from the PDF).
+        env_gstin    = gsp_gstin    or os.environ.get("GSP_SANDBOX_GSTIN", "")
+        env_username = gsp_username or os.environ.get("GSP_GST_USERNAME",  "")
         if env_gstin and env_username:
             self.gsp_gstin    = env_gstin
             self.gsp_username = env_username
@@ -493,6 +498,55 @@ class GSPClient:
         )
 
     # ------------------------------------------------------------------
+    # Notices & Orders
+    # ------------------------------------------------------------------
+
+    def list_notices(self, date: str) -> dict:
+        """
+        List notices issued to this GSTIN within the last 60 days of `date`.
+
+        GET /notices/noticelist?gstin=...&date=DD/MM/YYYY&email=...
+
+        dry_run: returns an empty mock list (sandbox notices data is not
+        seeded for these test GSTINs, so a live call is the only way to
+        know if anything exists).
+        """
+        if self.dry_run:
+            return {"status_cd": "1", "notices": []}
+
+        self._ensure_authenticated()
+        url = (
+            f"{self.BASE_URL}/notices/noticelist"
+            f"?gstin={self.gsp_gstin}&date={urllib.parse.quote(date, safe='')}"
+            f"&email={urllib.parse.quote(self.email, safe='')}"
+        )
+        return self._call_with_backoff(
+            self._wb_get_checked, url,
+            error_prefix=f"Notice list fetch failed for {self.gsp_gstin}",
+        )
+
+    def get_notice_details(self, ref_id: str) -> dict:
+        """
+        Fetch full details of a single notice by its reference ID
+        (as returned by list_notices()).
+
+        GET /notices/noticedetails?gstin=...&refId=...&email=...
+        """
+        if self.dry_run:
+            return {"status_cd": "1", "refId": ref_id, "detail": {}}
+
+        self._ensure_authenticated()
+        url = (
+            f"{self.BASE_URL}/notices/noticedetails"
+            f"?gstin={self.gsp_gstin}&refId={urllib.parse.quote(ref_id, safe='')}"
+            f"&email={urllib.parse.quote(self.email, safe='')}"
+        )
+        return self._call_with_backoff(
+            self._wb_get_checked, url,
+            error_prefix=f"Notice detail fetch failed for refId={ref_id}",
+        )
+
+    # ------------------------------------------------------------------
     # HTTP helpers
     # ------------------------------------------------------------------
 
@@ -545,6 +599,37 @@ class GSPClient:
             raise GSPError(f"GSP PUT error for {url}: {e}") from e
         finally:
             conn.close()
+
+    def _wb_get_checked(self, url: str, error_prefix: str) -> dict:
+        """_wb_get() + the standard status_cd == '1' check, raising GSPError on failure."""
+        resp = self._wb_get(url)
+        if str(resp.get("status_cd", resp.get("status", ""))) != "1":
+            err = resp.get("error", {})
+            raise GSPError(
+                f"{error_prefix} [{err.get('error_cd', '?')}]: {err.get('message', resp)}",
+                raw=resp,
+            )
+        return resp
+
+    def _call_with_backoff(self, func, *args, max_attempts: int = 4, base_delay: float = 5, **kwargs):
+        """
+        Retry a WhiteBooks call on the NIC/GSTN "sent too soon" throttling
+        error, with exponential backoff (5s, 10s, 20s, ...). Any other
+        GSPError (auth failure, no records found, etc.) is re-raised
+        immediately — only this specific transient condition is retried.
+        """
+        last_exc = None
+        for attempt in range(1, max_attempts + 1):
+            try:
+                return func(*args, **kwargs)
+            except GSPError as e:
+                last_exc = e
+                if "sent too soon" not in str(e).lower() or attempt == max_attempts:
+                    raise
+                delay = base_delay * (2 ** (attempt - 1))
+                print(f"    rate limited, retrying in {delay}s (attempt {attempt}/{max_attempts})...")
+                time.sleep(delay)
+        raise last_exc
 
     def _wb_get(self, url: str, txn: Optional[str] = None) -> dict:
         # Use http.client directly — urllib capitalizes header names, breaking WhiteBooks

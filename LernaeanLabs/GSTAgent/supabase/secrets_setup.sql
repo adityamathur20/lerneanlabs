@@ -16,15 +16,22 @@
 -- ---------------------------------------------------------------------------
 -- STEP 1: Store GSP key in Vault
 -- ---------------------------------------------------------------------------
--- Replace the value below with your actual secret before running.
--- Use any strong passphrase (32+ chars). You'll never need to type it again
--- after this — Vault holds it and the RPC functions use it automatically.
+-- Generate a passphrase in your terminal (32+ chars) — do NOT paste it into
+-- this file. Paste it directly into the SQL Editor, run once, then discard it
+-- from your clipboard/shell history. This file must never hold a real value.
 --
--- To generate a random one (run in your terminal first):
 --   python3 -c "import secrets; print(secrets.token_urlsafe(40))"
+--
+-- Already have a 'gsp_key' secret and rotating it? Use vault.update_secret()
+-- instead of create_secret() so you update in place rather than duplicate:
+--
+--   select vault.update_secret(
+--     (select id from vault.secrets where name = 'gsp_key'),
+--     '<PASTE-YOUR-NEW-PASSPHRASE-HERE>'
+--   );
 
 select vault.create_secret(
-  'zyvqyq-7zUvda-conkun-Adimat-9604',
+  '<PASTE-YOUR-GENERATED-PASSPHRASE-HERE>',
   'gsp_key',
   'GSP OTP session token encryption key — managed by Supabase Vault'
 );
