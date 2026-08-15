@@ -1,9 +1,0 @@
-{
-  "client_gstin": "24AABMT1234C1Z5",
-  "period": "102024",
-  "generated_at": "2026-04-10T14:13:44.498869",
-  "model_whatsapp": "template (fallback)",
-  "model_ca_report": "template (fallback)",
-  "fallback_used": true,
-  "issue_count": 3
-}
